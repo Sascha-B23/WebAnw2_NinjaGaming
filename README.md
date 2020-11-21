@@ -17,7 +17,7 @@ Die HTML-Seiten finden sich hier schon einmal.
     in der man "Create new Branch" auswählt. Hier seine eigene Branch erstellen, da wird sozusagen alles
     gespeichert, was nur du am Projekt machst.
 
-6) Links in der Reihe ist ein Datei-Symbol, dann kommt eine Lupe und das Zeichen danach bedeutet Source Control. Da muss man drauf klicken und dann neben dem Message Fenster auf das ... klicken und "Push" drücken.
+6) Links in der Reihe ist ein Datei-Symbol, dann kommt eine Lupe und das Zeichen danach bedeutet Source Control. Da muss man drauf klicken und dann neben dem Message Fenster auf das ... klicken und "Push" drücken. (Beim Klicken von Push kommt manchmal ein Fenster mit "Anmelden über Browser in GitHub", das auf jeden Fall machen!)
 
 7) Wenn man jetzt irgendeine Datei in seiner eigenen Branch ändert und speichert!, sieht man dass sich bei dem Source Controll etwas ändert. Unter dem Reiter "Changes" im Source Control steht dann die geänderte Datei, nach einem Klickk auf das "+" wird die Datei "gestaged" 
 
