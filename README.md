@@ -3,7 +3,8 @@
 
 Die HTML-Seiten finden sich hier schon einmal. 
 ## Vorgehensweise
-1) Git herunterladen: https://git-scm.com/download/win
+1) Git herunterladen: https://git-scm.com/download/win --> Git Bash aufrufen und folgende Befehle eingeben: $ git config --global user.name "DEIN USERNAME IN GITHUB"
+          $ git config --global user.email "DEINE EMAIL IN GITHUB"
 
 2) Visual Studio Code öffnen: Strg + Shift + P <-- Das öffnet oben eine Zeile.
 
