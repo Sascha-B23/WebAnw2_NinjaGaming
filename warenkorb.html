@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="Css/Css_Final.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="Script.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Ninja-Gaming
+            <br>Dein Shop fürs Ausleihen und Kaufen von Games
+        </h1>
+        <img id ="titelbild" src="Bilder/Ninja.png" alt="Ninja">
+    </header>
+
+    <div id="nav">
+		<a href="index.html"> Startseite</a>
+		<a href="spielauswahl.html"> PC</a>
+		<a href="spielauswahl.html"> PS4</a>
+		<a href="spielauswahl.html"> XBOX</a>
+		<a href="impressum.html"> Impressum</a>
+		<a href="kontakt.html">Kontakt</a>
+    </div>
+    <h1 id="warenkorb_h1">Warenkorb</h1>
+    <div class="warenkorb_main">
+        <table id="warenkorb_tabelle">
+           
+            <tbody>
+                <tr class="warenkorb_zeile">
+                    <td class="tabelle_bild"><img class="warenkorb_bild" src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel0"></td>
+                    <td class="tabelle_beschreibung">Spielbeschreibung: <br>
+                        Name: The Elder Scrolls Online: Greymoor<br>
+                        Plattform: PS4<br>
+                        Erscheinungsjahr: 2020
+                    </td>
+                    <td>Kaufpreis UVP</td>
+                    <td>49,99 €</td>
+                    <td><input type="button" value="entfernen" id="1" onclick="warenkorbEntfernen(this)"></td>
+                </tr>
+                <tr class="warenkorb_zeile">
+                    <td><img class="warenkorb_bild" src="Bilder/Dirt 5.jpg" alt="Spiel0"></td>
+                    <td>Spielbeschreibung: <br>
+                        Dirt 5<br>
+                        Plattform: XBOX<br>
+                        Erscheinungsjahr: 2020
+                    </td>
+                    <td>Geliehen für<br><br>
+                        <select>
+                            <option value="1">1 Tag</option>
+                            <option value="2">2 Tage</option>
+                            <option value="3">3 Tage</option>
+                            <option value="4">4 Tage</option>
+                            <option value="5" selected>5 Tage</option>
+                            <option value="6">6 Tage</option>
+                            <option value="7">7 Tage</option>
+                            <option value="8">8 Tage</option>
+                            <option value="9">9 Tage</option>
+                            <option value="10">10 Tage</option>
+                        </select>
+                    </td>
+                    <td>10,00 €</td>
+                    <td><input type="button" value="entfernen" id="2" onclick="warenkorbEntfernen(this)"></td>
+                </tr>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"><h4>Zwischensumme</h4></td>
+                    <td><h4>59,99 €</h4></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+    </div>
+    <div class="zur_kasse">
+        <a href="kasse.html"><button>Zur Kasse</button></a>
+    </div>
+
+    <footer>
+        <div class="Footer_links">
+            <a href="impressum.html">Impressum</a> <br><br>
+            <a href="kontakt.html">Kontakt</a> <br><br>
+            <a href="support.html">Support</a>
+        </div>
+        <div class="Footer_mitte">
+            <p>Zahlungsarten:</p> <br>
+            <img src="Bilder/Paypal-logo.jpg" alt="Paypal" >
+            <img src="Bilder/Barzahlung_logo.png" alt="Barzahlung" >
+        </div>
+ 
+        <div class="Footer_rechts">
+            <p>Soziale Netzwerke:</p>
+            <a href="https://de-de.facebook.com/"><img src="Bilder/Facebook_logo.png" alt="Facebook"></a>
+            <a href="https://twitter.com/?lang=de"><img src="Bilder/Twitter_logo.png" alt="Twitter"></a>
+            <a href="https://www.instagram.com/"><img src="Bilder/Instagram_logo.jpg" alt="Facebook"></a>
+        </div>
+    </footer>
+
+</body>
+</html>
