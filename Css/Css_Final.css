@@ -39,7 +39,7 @@ h2 {
 }
 
 #nav a{
-	width: 14.9162%;
+	width: 14.5%;
   display:inline-block;
   text-align: center;
   text-decoration: none;
@@ -216,6 +216,7 @@ h2 {
 
 .topgames {
   height: 550px;
+  min-height: 550px;
 }
 
 .randelement {
@@ -336,6 +337,7 @@ footer{
     padding-bottom: 10%;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+    height: 25px;
   }
    
   .Footer_links{

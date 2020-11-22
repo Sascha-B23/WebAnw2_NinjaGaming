@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="Css/Css_Final.css">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
@@ -70,9 +71,9 @@
 
     <h2>Top Games</h2>
 
-    <div class="topgames">
+    <div id="dyntarget" class="topgames">
 
-        <div class="randelement">
+        <!-- <div class="randelement">
             <a href="kaufseite.html"><img src="Bilder/XIII_Limited Edition.jpg" alt="Spiel0"></a>
             <div class="PreisBeschreibungContainer">
                 <p class="Plattform">Plattform: <strong>PS4</strong></p>
@@ -130,8 +131,8 @@
             <div class="AnsehenContainer">
                 <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
             </div>
-        </div>          
-    </div>
+        </div>         -->
+    </div> 
         <footer>
             <div class="Footer_links">
                 <a href="impressum.html">Impressum</a> <br><br>
@@ -154,4 +155,35 @@
 
 </body>
 <script src="JQuery_JS/Script.js"></script>
+<script>
+
+$(document).ready(function() {
+    var content = '';
+
+    for (i = 0; i < 5; i++) {
+        if (i==0) {
+            content += '<div class="randelement">';
+        }
+        else if (i==4) {
+            content += '<div class="randelementR">';
+        }
+        else {
+            content += '<div class="elementmittig">';
+        }
+
+        content += '<a href="kaufseite.html"><img src="Bilder/XIII_Limited Edition.jpg" alt="Spiel0"></a>';
+        content += '<div class="PreisBeschreibungContainer">'
+        content += '<p class="Plattform">Plattform: <strong>PS4</strong></p>'
+        content += '<p class="Preis">43,99€</p>'
+        content += '<p class="Spielname">Fifa 21</p>'
+        content += '</div>'
+        content += '<div class="AnsehenContainer">'
+        content += '<a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>'
+        content += '</div>'
+        content += '</div>'
+}
+
+$('#dyntarget').html(content);
+});
+</script>
 </html>
