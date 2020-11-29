@@ -993,11 +993,9 @@ input[id=fname], select, textarea {
 
 /*Impressum*/
 .impressum_main {
-  border: #ddd;
-  border-radius: 1px;
+  border: solid #ddd;
   margin-top: 6%;
-  background: #ddd;
-  border-radius: 15px;
+  /* background: #ddd; */
   padding-bottom: 3%;
   padding-top: 1.5%;
 }
@@ -1006,7 +1004,8 @@ input[id=fname], select, textarea {
   margin-left: 5%;
   margin-top: 3%; 
   margin-right: 5%;
-  font-style: arial;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: large;
 }
 
