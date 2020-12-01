@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="Css/Css_Final.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <header>
+        <h1>Ninja-Gaming
+            <br>Dein Shop fürs Ausleiehen und Kaufen von Games
+        </h1>
+        <img id ="titelbild" src="Bilder/Ninja.png" alt="Ninja">
+    </header>
+
+    <div id="nav">
+		<a href="index.html"> Startseite</a>
+		<a href="spielauswahl.html"> PC</a>
+		<a href="spielauswahl.html"> PS4</a>
+		<a href="spielauswahl.html"> XBOX</a>
+		<a href="impressum.html"> Impressum</a>
+		<a href="kontakt.html">Kontakt</a>
+    </div>
+    
+    <div class="boxContainer">
+        <table class="elementsContainer">
+        <tr>
+        <td>
+        <input type="text" placeholder="Suche nach"
+        class="search">
+        </td>
+        <td>
+        <a href="kaufseite.html"> <i class="material-icons">search</i>
+        </a>
+        </td>
+        </tr>
+        </table>
+    </div>
+    <a href="warenkorb.html"><img id="Warenkorb" src="Bilder/Warenkorb.png" alt="Warenkorb"/></a>
+
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner1.jpg" style="width:100%" ></a>
+            <div class="text"></div>
+        </div>
+    
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner2.jpg" style="width:100%" ></a>
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner3.jpg"style="width:100%"></a>
+            <div class="text"></div>
+        </div>
+
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div> 
+
+    <h2>Top Games</h2>
+
+    <div id="dyntarget" class="topgames">
+
+        <!-- <div class="randelement">
+            <a href="kaufseite.html"><img src="Bilder/XIII_Limited Edition.jpg" alt="Spiel0"></a>
+            <div class="PreisBeschreibungContainer">
+                <p class="Plattform">Plattform: <strong>PS4</strong></p>
+                <p class="Preis">59,99€</p>
+                <p class="Spielname">XIII: Limited Edition</p>
+            </div>
+            <div class="AnsehenContainer">
+                <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
+            </div>
+        </div>
+
+        <div class="elementmittig">
+            <a href="kaufseite.html"><img src="Bilder/Dirt5.jpg" alt="Spiel0"></a>
+            <div class="PreisBeschreibungContainer">
+                <p class="Plattform">Plattform: <strong>XBOX</strong></p>
+                <p class="Preis">29,99€</p>
+                <p class="Spielname">Dirt 5</p>
+            </div>
+            <div class="AnsehenContainer">
+                <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
+            </div>
+        </div>
+
+        <div class="elementmittig">
+            <a href="kaufseite.html"><img src="Bilder/Cyberpunk 2077 (Day-One_Edition).jpg" alt="Spiel0"></a>
+            <div class="PreisBeschreibungContainer">
+                <p class="Plattform">Plattform: <strong>PC</strong></p>
+                <p class="Preis">58,99€</p>
+                <p class="Spielname">Cyberpunk 2077 (Day-One-Edition)</p>
+            </div>
+            <div class="AnsehenContainer">
+                <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
+            </div>
+        </div>
+
+        <div class="elementmittig">
+            <a href="kaufseite.html"><img src="Bilder/Fifa21.jpg" alt="Spiel0"></a>
+            <div class="PreisBeschreibungContainer">
+                <p class="Plattform">Plattform: <strong>PS4</strong></p>
+                <p class="Preis">43,99€</p>
+                <p class="Spielname">Fifa 21</p>
+            </div>
+            <div class="AnsehenContainer">
+                <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
+            </div>
+        </div>
+
+        <div class="randelementR">
+            <a href="kaufseite.html"><img src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel0"></a>
+            <div class="PreisBeschreibungContainer">
+                <p class="Plattform">Plattform: <strong>PS4</strong></p>
+                <p class="Preis">39,99€</p>
+                <p class="Spielname">The Elder Scrolls Online - Greymoor</p>
+            </div>
+            <div class="AnsehenContainer">
+                <a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>
+            </div>
+        </div>         -->
+    </div> 
+        <footer>
+            <div class="Footer_links">
+                <a href="impressum.html">Impressum</a> <br><br>
+                <a href="kontakt.html">Kontakt</a> <br><br>
+                <a href="support.html">Support</a>
+            </div>
+            <div class="Footer_mitte">
+                <p>Zahlungsarten:</p> <br>
+                <img src="Bilder/Paypal-logo.jpg" alt="Paypal" >
+                <img src="Bilder/Barzahlung_logo.png" alt="Barzahlung" >
+            </div>
+     
+            <div class="Footer_rechts">
+                <p>Soziale Netzwerke:</p>
+                <a href="https://de-de.facebook.com/"><img src="Bilder/Facebook_logo.png" alt="Facebook"></a>
+                <a href="https://twitter.com/?lang=de"><img src="Bilder/Twitter_logo.png" alt="Twitter"></a>
+                <a href="https://www.instagram.com/"><img src="Bilder/Instagram_logo.jpg" alt="Facebook"></a>
+            </div>
+        </footer>
+
+</body>
+<script src="JQuery_JS/Script.js"></script>
+<script>
+
+$(document).ready(function() {
+    var content = '';
+
+    for (i = 0; i < 5; i++) {
+        if (i==0) {
+            content += '<div class="randelement">';
+        }
+        else if (i==4) {
+            content += '<div class="randelementR">';
+        }
+        else {
+            content += '<div class="elementmittig">';
+        }
+
+        content += '<a href="kaufseite.html"><img src="Bilder/XIII_Limited Edition.jpg" alt="Spiel0"></a>';
+        content += '<div class="PreisBeschreibungContainer">'
+        content += '<p class="Plattform">Plattform: <strong>PS4</strong></p>'
+        content += '<p class="Preis">43,99€</p>'
+        content += '<p class="Spielname">Fifa 21</p>'
+        content += '</div>'
+        content += '<div class="AnsehenContainer">'
+        content += '<a href="kaufseite.html"><button type="button" class="ZumSpiel">Spiel ansehen</button></a>'
+        content += '</div>'
+        content += '</div>'
+}
+
+$('#dyntarget').html(content);
+});
+</script>
+</html>
