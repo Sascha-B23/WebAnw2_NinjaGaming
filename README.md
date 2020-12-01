@@ -1,7 +1,8 @@
 ### WebAnw2_NinjaGaming
 # Projekt in Webanwendungen 2 mit Node.js
 
-Um Server zu starten: im Terminal eingeben:node server.js
+Um Server zu starten: im Terminal eingeben:npm install
+Dann im Terminal eingeben:node server.js
 
 HTML-Seiten sind im Ordner "public".
 Alle Datenbanken und werte können mit Ajax erreicht werden. (Siehe Index.html und Spielauswahl.html).
