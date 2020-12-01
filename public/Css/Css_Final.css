@@ -279,6 +279,7 @@ h2 {
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
   color:#2c3e50;
+  height: 165px;
 }
 
 .Plattform {
@@ -411,7 +412,7 @@ footer{
   border-width: 2px;
   border-style: solid;
   display: block;
-  height: 250px;
+  height: 300px;
   margin-bottom: 2%;
   background-color: white;
   padding: 2%
