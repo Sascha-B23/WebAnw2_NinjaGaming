@@ -17,9 +17,9 @@
 
     <div id="nav">
 		<a href="index.html"> Startseite</a>
-		<a href="spielauswahl.html"> PC</a>
-		<a href="spielauswahl.html"> PS4</a>
-		<a href="spielauswahl.html"> XBOX</a>
+		<a href="spielauswahl.html?spielplattformId=2"> PC</a>
+		<a href="spielauswahl.html?spielplattformId=1"> PS4</a>
+		<a href="spielauswahl.html??spielplattformId=3"> XBOX</a>
 		<a href="impressum.html"> Impressum</a>
 		<a href="kontakt.html">Kontakt</a>
     </div>
@@ -155,7 +155,7 @@
 
 </body>
 <script src="JQuery_JS/Script.js"></script>
-<script>
+<!-- <script>
 
 $(document).ready(function() {
     var content = '';
@@ -184,6 +184,50 @@ $(document).ready(function() {
 }
 
 $('#dyntarget').html(content);
+});
+</script> -->
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8000/api/spiel/alle",
+            method: "GET",
+            dataType: "json"
+        })
+        .done(function(httpResponse) {
+            var list = httpResponse.daten
+            for (i = 0; i < 5; i++) {
+                if (i==0) {
+                    $("DIV#dyntarget").append(
+                        $("<div>")
+                            .addClass("randelement")
+                            .append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen"))))
+                    );
+                }
+                else if (i==4) {
+                    $("DIV#dyntarget").append(
+                        $("<div>")
+                            .addClass("randelementR")
+                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId"+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
+                }
+                else {
+                    $("DIV#dyntarget").append(
+                        $("<div>")
+                            .addClass("elementmittig")
+                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
+                }
+            }
+        })
+        .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+        })
 });
 </script>
 </html>
