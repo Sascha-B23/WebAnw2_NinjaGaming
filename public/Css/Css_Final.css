@@ -1,0 +1,1060 @@
+body {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 0;
+    height: 100%;
+    background: #f1f1f1;
+}
+
+header {
+    position: relative;
+    height: 100px;
+    margin-top: 2%;
+    margin-bottom: 0%;
+}
+
+header h1 {
+    float: left;
+    color:#2c3e50;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 0;
+}
+
+h2 {
+    color:#2c3e50;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    margin-bottom: 2%
+}
+
+#titelbild {
+    float: right;
+    height: 100%;
+}
+
+#nav {
+  background-color:black;
+  /*margin-top: 1%;*/
+  /*border-radius:15px;*/
+}
+
+#nav a{
+	width: 14.5%;
+  display:inline-block;
+  text-align: center;
+  text-decoration: none;
+	color:white;
+  padding: 10px;
+  font-family: arial;
+}
+
+#nav a:hover {
+	/*border-radius:15px;*/
+	background-color: #595959;
+}
+
+/* Suchleiste */
+.boxContainer{
+    margin:auto;
+    margin-top:3%;
+    position:relative;
+    width: 85%;
+    height:42px;
+    border: 4px solid #2c3e50;
+    /*border: 4px solid #2980b9;*/
+    padding:0px 10px;
+    /*border-radius: 50px;*/
+    float: left;
+    margin-bottom: 3%;
+    }
+.elementsContainer{
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    }
+.search{
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 0px 30px;
+    /*border-radius: 50px;*/
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-weight: 500;
+    }
+.search:focus
+    {
+    outline: none;
+    }
+.material-icons{
+    font-size: 26;
+    color:black;
+}
+
+/* STARTSEITE*/
+
+/* Slideshow*/
+
+/* Sichtbarkeit der divs*/
+.mySlides {
+	display: none
+  }
+  
+  /* Bilder skalieren und ausrichten */
+  .slideIMG {
+	vertical-align: middle; 
+	height: 520px;
+  }
+  
+  /* Grudgerüst Slideshow*/
+  .slideshow-container {
+	  position: relative;
+	  max-height: 550px;
+	  margin-top: 70px;
+	}
+  
+  /* Buttons Style, Position,...*/
+  .prev, .next {
+	  cursor: pointer;
+	  position: absolute;
+	  width: auto;
+	  padding: 16px;
+	  color: #2c3e50;
+	  font-weight: bold;
+	  font-size: 30px;
+	  transition: 0.6s ease;
+	  border-radius: 0 3px 3px 0;
+    user-select: none;
+    bottom: 180px
+	}
+  
+	/* Next ganz rechts*/
+  .next {
+	  right: 0;
+	  border-radius: 3px 0 0 3px;
+  }
+  
+  /* Buttons beim drüberfahren*/
+  .prev:hover, .next:hover {
+	  background-color: rgba(163, 163, 163, 0.795);
+	}
+  
+  /* Beschreibung der Bilder (Style, Position)*/
+  .text {
+	  bottom: -500px;
+	  color: rgb(255, 255, 255);
+	  display: block;
+	  font-size: 60px;
+	  position: absolute;
+	  width: 100%;
+	  text-align: center;
+	}
+	
+  /* Nummrierung der Bilder (Style, Position)*/
+  .numbertext {
+	  color:#2c3e50;
+	  font-size: 20px;
+	  padding: 8px 12px;
+	  position: absolute;
+	  
+	}
+  
+  /* Dots (Punkte)*/
+  .dot {
+	  cursor: pointer;
+	  height: 15px;
+	  width: 15px;
+	  background-color:#2c3e50; 
+	  border-radius: 50%;
+	  display: inline-block;
+    transition: background-color 0.6s ease;
+    margin-bottom: -40px;
+	}
+  
+  /* Aktiver Punkt*/
+  .active {
+	  background-color: black;
+	}
+  
+  /* Punkt drüberfahren*/
+  .dot:hover {
+	background-color: grey;
+  }
+  
+  /* Fade-Animation */
+  .fade {
+	  -webkit-animation-name: fade;
+	  -webkit-animation-duration: 1.5s;
+	  animation-name: fade;
+	  animation-duration: 1.5s;
+	}
+	
+	@-webkit-keyframes fade {
+	  from {opacity: 0.2}
+	  to {opacity: 1}
+	}
+	
+	@keyframes fade {
+	  from {opacity: 0.2}
+	  to {opacity: 1}
+  }
+  
+.dots {
+  text-align:center;
+  margin-bottom: 8%;
+
+}
+  
+#Warenkorb {
+    height: 10%;
+    width: 10%;
+    float: right;
+}
+
+/*Div mit den Topgames*/
+
+.topgames {
+  height: 550px;
+  min-height: 550px;
+}
+
+.randelement {
+  float: left;
+  width: 15.2%;
+  margin-right: 2.75%;
+  text-align: center;
+  border: 1px solid #2c3e50;
+  background: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.randelement img {
+  position: relative;
+  width: 70%;
+  margin-top: 20px;
+  height: 190px;
+}
+
+.elementmittig {
+  float: left;
+  width: 15.2%;
+  margin-left: 2.75%;
+  margin-right: 2.75%;
+  text-align: center;
+  color:#2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #2c3e50;
+  background-color: white;
+  }
+
+.elementmittig img{
+  position: relative;
+  width: 70%;
+  margin-top: 20px;
+  height: 190px;
+}
+
+.randelementR {
+  float: right;
+  width: 15.2%;
+  margin-left: 2.75%;
+  font-size: 20px;
+  text-align: center;
+  color:#2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #2c3e50;
+  background-color: white;
+}
+
+.randelementR img {
+  position: relative;
+  width: 70%;
+  margin-top: 20px;
+  height: 190px;
+}
+
+.PreisBeschreibungContainer {
+  padding-left: 10px;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  color:#2c3e50;
+  height: 165px;
+}
+
+.Plattform {
+  font-size: 12px;
+  height: 14px;
+}
+
+.Preis {
+    min-height: 45px;
+    font-size: 27px;
+    margin: 0;
+}
+
+.Spielname {
+  font-size:20px;
+  height: 40px;
+}
+
+.AnsehenContainer {
+  background-color: black;
+  height:70px;
+}
+
+.ZumSpiel {
+  height: 30px;
+  padding: 5px;
+  margin-top: 20px;
+  width: 75%;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+
+.ZumSpiel:hover {
+  background-color: white;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.ZumSpiel:disabled {
+  cursor: not-allowed;
+  background-color: lightgrey;
+}
+
+/*Footer*/
+
+footer{
+    position: relative;
+    padding: 30px 20px 200px 20px;
+    /*background: #ddd;*/
+    background-color: black;
+    /*border-radius: 15px;*/
+    padding-bottom: 10%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    height: 25px;
+  }
+   
+  .Footer_links{
+    float: left;
+    margin-left: 2%;
+    width: 20%;
+    font-size: medium;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+   
+  .Footer_mitte {
+    float: left;
+    width: 20%;
+    margin-left: 18% ;
+    margin-right: 11%;
+    font-size: medium;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+   
+  .Footer_mitte img{
+    margin-top: -20px;
+    width: 80px;
+    height: 50px;
+    /*border-radius: 15px;*/
+    text-align: center;
+  }
+   
+  .Footer_rechts {
+    float: right;
+    margin-right: 2%;
+    width: 20%;
+    font-size: medium;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  .Footer_links a{
+    color: white;
+  }
+  .Footer_rechts img{
+    width: 20%;
+    height: 20%;
+    /*border-radius: 15px;*/
+  }
+
+/* Spielauswahl */
+
+#sortierung {
+    width: 85%;
+    float: left;
+    border-radius: 0px;
+    padding: 2px;
+    margin-left: 0;
+    height:25px;
+    margin-top: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#SpieleContainer {
+  margin-top: 6%;
+  min-height: 500px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.spiel {
+  /*border-radius: 10px;*/
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  display: block;
+  height: 300px;
+  margin-bottom: 2%;
+  background-color: white;
+  padding: 2%
+}
+
+.spielanzeige {
+  float: left;
+  height: 250px;
+  width:  180px;
+}
+
+
+.spielbeschreibung {
+  float: left;
+  width: 50%;
+  padding-left: 5%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.rechterContainer {
+  float: right;
+  height: 250px;
+  width: 20%;
+  text-align: center;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Warenkorb*/
+#warenkorb_h1 {
+  float: left;
+  color:#2c3e50;
+  font-family: arial;
+  margin-bottom: 0;
+} 
+.warenkorb_main {
+  border: 3px solid #ddd;
+  margin-top: 6%;
+  /* background: #ddd; */
+  /* border-radius: 15px; */
+  padding-bottom: 6%;
+  padding-top: 3%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.warenkorb_spiel {
+  /*border-radius: 10px;*/
+  border-color: #ddd;
+  border-width: 2px;
+  border-style: solid;
+  display: block;
+  height: 150px;
+  /* margin-bottom: 2%; */
+  background-color: white;
+  padding: 2%;
+  
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-top: 1%; 
+}
+.warenkorb_spielanzeige {
+  float: left;
+  height: 150px;
+  width:  110px;
+  margin-left: 3%;
+}
+
+.warenkorb_spielbeschreibung {
+  
+  float: left;
+  width: 25%;
+  padding-left: 6%;
+  margin-right: 2%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.warenkorb_kaufart {
+  /* border: solid black; */
+  float: left;
+  width: 15%;
+  padding-left: 1%;
+  padding-right: 1%;
+  padding-top: 4%;
+  margin-right: 2%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.dropdown_warenkorb{
+  margin-left: 0%;
+  margin-top: -5%;
+  /* border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent; */
+  border-radius: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 84.5%;
+  cursor: pointer;
+  }
+.warenkorb_preis {
+  
+  float: left;
+  width: 6%;
+  padding-left: 4%;
+  padding-top: 4%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.warenkorb_rechterContainer {
+
+  float: right;
+  width: 20%;
+  padding-top: 5.5%;
+  text-align: center;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.warenkorb_entfernen {
+  height: 30px;
+  padding: 5px;
+  width: 55%;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+
+.warenkorb_entfernen:hover {
+  background-color: white;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+#strich_warenkorb {
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.gesamtpreis_warenkorb {
+  margin-top: 5%;
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-bottom: 3%;
+  color:#2c3e50;
+  font-family: Arial, Helvetica, sans-serif
+}
+/*der Strich beim Preis*/
+.gesamtpreis_warenkorb hr {  
+  color: #2c3e50;
+  height: 2px;
+  background-color: #2c3e50;
+}
+.gesamtpreis_warenkorb_links {
+  float: left;
+  width: 30%;
+}
+
+.gesamtpreis_warenkorb_rechts {
+  /* text-align: right; */
+  float: right;
+  width: 31.5%;
+  /* margin-right: 27.5%; */
+}
+
+.zur_kasse button{
+  margin-left: 43.8%;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  font-size: Large;
+  padding: 1.5% 3%;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  text-align: center;
+}
+.zur_kasse button:hover {
+  background-color: white;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+} /*Warenkorb ende
+ 
+/*Bestellbestätigung*/
+#bestellbestätigung_h1 {
+  text-align: center;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 300%;  
+}
+ 
+#bestellbestätigung_text {
+  text-align: center;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 120%;
+}
+.bestellbestätigung_spiel {
+  border-color: #ddd;
+  border-width: 2px;
+  border-style: solid;
+  display: block;
+  height: 150px;
+  /* margin-bottom: 2%; */
+  background-color: white;
+  padding: 1%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 0.5%;
+}
+
+.bestellbestätigung_spielbeschreibung{
+  float: left;
+  width: 30%;
+  padding-left: 8%;
+  margin-right: 2%;
+}
+
+.bestellbestätigung_kaufart {
+  float: left;
+  width: 15%;
+  padding-left: 8%;
+  padding-right: 1%;
+  padding-top: 6%;
+  margin-right: 2%;
+}
+
+.bestellbestätigung_preis {
+  float: left;
+  width: 6%;
+  padding-left: 4%;
+  padding-top: 6%;
+}
+
+.gesamtpreis_bestellbestätigung {
+  margin-top: 5%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 3%;
+}
+.gesamtpreis_bestellbestätigung hr {  
+  color: #2c3e50;
+  height: 2px;
+  background-color: #2c3e50;
+}
+
+.gesamtpreis_warenkorb_rechts {
+  text-align: right;
+  /* margin-right: 6.5%; */
+}
+.drucken_div{
+  /* border: solid black; */
+  /* margin-left: 73.5%; */
+  margin-top: 10%;
+  margin-bottom: -3.5%;
+  padding-left: 73.5%;
+
+}
+
+#seite_drucken {
+
+  font-size: Large;
+  padding: 2% 2.5%;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#seite_drucken:hover {
+  background-color: white;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#bestellbestätigung_zurückStartseite a button{
+  margin-top: 3%;
+  margin-bottom: 3%;
+  margin-left: 42.5%;
+  padding: 1%;
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-size: large;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+#bestellbestätigung_zurückStartseite a button:hover{
+  background-color: white;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}/*Bestellbestätigung Ende*/
+
+/*KAUFSEITE*/
+
+h3 {
+  color:#2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+/*.ueberschrift1{
+  text-align: left;
+  margin-left: 92px;
+  color:black;
+  }*/
+  
+.fifa{
+  width:30%;
+  height:490px;
+  margin-top:40px;
+  float: left;
+  margin-bottom: 5%;
+}
+
+/*.ueberschrift2{
+  text-align: left;
+  margin-left: 92px;
+  color:black;
+  }*/
+  
+/*.box_innen{
+  color:#2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  }*/
+  
+.boxx{
+  float: left;
+  margin-top:40px;
+  margin-left: 5%;
+  width: 25%;
+  margin-right: 5%;
+  height: 465.78px;
+  padding: 2% 2% 0 2%;
+  border: 1px solid lightgray;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 5%;
+  }
+  
+.boxx1{
+  float: right;
+  margin-top:40px;
+  /*margin-top:-311px;
+  margin-left:970px;
+  margin-bottom:240px;*/
+  width: 25%;
+  padding: 1%;
+  border: 1px solid lightgray;
+  height: 200px;
+  margin-bottom: 5%;
+  }
+  
+.kaufen_button{
+  float:right;
+  /*margin-left:970px;
+  margin-top:-217px;*/
+  width: 27.15%;
+  height: 270.79px;
+  }
+
+.button_innen{
+  border: 1px solid #2c3e50;
+  background-color: #2c3e50;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  padding: 15px 32px;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  }
+ 
+.button_innen:hover {
+    background-color: white;
+    color: #2c3e50;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+  }
+  
+.button_innen:disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+  }
+  
+  .dropdownKauf{
+  margin: 20px 0 20px 0px;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+  border-radius: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  }
+  
+/*  .button_unten{
+  width: 350px;
+  border: none;
+  background-color:DodgerBlue;;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  }*/
+  
+  .ueberschrift_unten{
+  float:left;
+  margin-left:100px;
+  margin-top:200px;
+  }
+  
+  .aenliche_spiele{
+  margin-top:1000px;
+  margin-left:40px;
+  margin-bottom:100px;
+  width: 1260px;
+  height: 470px;
+  padding: 1%;
+  border: 1px solid black;
+  border-radius:10px;
+  }
+  
+  .left_ {
+  float: left;
+  margin-left: 7%;
+  width: 200px;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color:#2c3e50;
+  font-family: arial;
+  border: 1px solid lightgrey;
+  border-radius:10px;
+  background-color: white;
+  }
+  .main_ {
+  float: left;
+  width: 200px;
+  margin-left: 7%;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color:#2c3e50;
+  font-family: arial;
+  text-align: center;
+  border: 1px solid lightgrey;
+  border-radius:10px;
+  background-color: white;
+  }
+  .right_ {
+  float: left;
+  margin-left: 7%;
+  width: 200px;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color:#2c3e50;
+  font-family: arial;
+  border: 1px solid lightgrey;
+  border-radius:10px;
+  background-color: white;
+  }
+  .right_1{
+  float: right;
+  margin-right: 7.3%;
+  width: 200px;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color:#2c3e50;
+  font-family: arial;
+  border: 1px solid lightgrey;
+  border-radius:10px;
+  background-color: white;
+  }
+
+  /* Kasse */
+  .kasse{
+    float: left;
+    margin-left:0%;
+}
+
+.left_side {
+    float: left;
+    margin-left: -7%;
+    width: 60%;
+    font-size: medium;
+    padding-top: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+  .right_side{ 
+      float: left;
+      margin-left: -3%;  
+      font-family: Arial, Helvetica, sans-serif;  
+}
+
+.summe{
+    margin-top: -26%;
+}
+
+/*  Zahlungsmethode Kasse -> select-box */
+.kasten_container{
+    max-width: auto;
+    margin: 0 auto;
+    
+}
+.select-box{
+    width: 300px;
+    position: relative;
+    float: left;
+    margin-left: 0%;
+    
+}
+.select-box select{
+    height: 45px;
+    padding: 10px 15;
+    line-height: 18px;
+    font-size: 16px;
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 0px;
+    -webkit-appearance:none;
+    appearance:none;
+}
+.select-box:after{
+  content: "";
+  position: absolute;
+  right: 22px;
+  top:64%;
+  margin-top: -4px;
+  border-top: 8px solid #ccc;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  pointer-events: none;
+}
+.select-box select:focus{
+    border:2px solid black;
+}
+
+ 
+
+/* Textfelder von Kasse */
+input[id=fname], select, textarea {
+  width: 104%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: -2%;
+
+}
+
+ 
+
+.zahlbutton{
+  float: left;
+  width: 20%;
+  height: 50%;
+  margin-left: 40%;
+  text-align: center;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+
+.container1 {
+    border-radius: 0px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+.lala{
+  margin-left: 0%;
+  font-style: arial;
+  font-size: large;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*Impressum*/
+.impressum_main {
+  border: solid #ddd;
+  margin-top: 6%;
+  /* background: #ddd; */
+  padding-bottom: 3%;
+  padding-top: 1.5%;
+}
+
+.impressum_main p {
+  margin-left: 5%;
+  margin-top: 3%; 
+  margin-right: 5%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+}
+
+/*Impressum Ende*/
+
+/*Support*/
+.boxx2{
+  margin-top: 50px;
+  margin-left: 12.5%;
+  width: 74%;
+  height: 72%;
+  padding: 1%;
+  border: 0px solid ;
+  border-radius:0px;
+  background-color:#d9d9d9;
+  }
+  .text_innen{
+  text-align:center;
+  font-size:17px;
+  color:#2c3e50;
+  }
+  .support_header{
+  text-align:center;
+  font-size:35px;
+  color:#2c3e50;
+  margin-bottom:-35px;
+  }
+
+  /*Support Ende*/
+
+  /*Kontakt */
+
+.container {
+  min-height: 600px;
+  margin-left: 0%;
+  color: #2c3e50;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
+}
