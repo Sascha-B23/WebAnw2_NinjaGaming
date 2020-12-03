@@ -122,74 +122,52 @@
         </div>
     </footer>
     <script>
+
+// WARENKORB WIRD NOCH GEÄNDERT (SO WIE IN DER PRAKTIKUMSSTUNDE GEZEIGT MIT SESSION ID USW)
+
         $(document).ready(function() {
-            //Datenquelle
-            var list = [
-                {spielbild:'Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg', 
-                spielname: 'The Elder Scrolls Online - Greymoor [Standard Edition]',
-                spielplattform: 'PS4',
-                erscheinungsjahr: '2020',
-                kaufart: 'Kaufpreis UVP',
-                preis: '59,99€'},
-
-                {spielbild:'Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg', 
-                spielname: 'The Elder Scrolls Online - Greymoor [Standard Edition]',
-                spielplattform: 'PS4',
-                erscheinungsjahr: '2020',
-                kaufart: 'Geliehen für:</h4><select class="dropdown_warenkorb"><option>1 Tag</option><option>2 Tage</option><option>3 Tage</option><option>4 Tage</option><option selected>5 Tage</option><option>7 Tage / 1 Woche</option><option>14 Tage / 2 Wochen</option></select>',
-                preis: '25,00€'},
-
-                {spielbild:'Bilder/Cyberpunk 2077 (Day-One_Edition).jpg', 
-                spielname: 'Cyberpunk 2077 (Day-One-Edition)',
-                spielplattform: 'PC',
-                erscheinungsjahr: '2020',
-                kaufart: 'Kaufpreis UVP',
-                preis: '58,99€'}
-            ];
-
-
-            var list_2 = [
-                {mwst: 'xx,xx€',
-                gesamtpreis: 'xx,xx€'}
-            ];
-            
-            var tmp ='';
-
-            for (i = 0; i < list.length; i++ ){
-                //Spielbild
-                tmp += '<div class="warenkorb_spiel">';
-                tmp += '<a href="kaufseite.html"><img class="warenkorb_spielanzeige" src="';
-                tmp += list[i].spielbild;
-                tmp += '" alt="Spiel"/></a>';
-
-                //Spielbeschreibung 
-                tmp += '<div class="warenkorb_spielbeschreibung">';
-                tmp += '<h4>' + list[i].spielname + '</h5>';
-                tmp += '<h5>Plattform: ' + list[i].spielplattform + '</h5>'
-                tmp += '<h5>Erscheinungsjahr: ' + list[i].erscheinungsjahr + '</h5></div>';
-
-                //Kaufart
-                tmp += '<div class="warenkorb_kaufart">';
-                tmp += '<h4>' + list[i].kaufart + '</h4></div>';
-
-                //Preis
-                tmp += '<div class="warenkorb_preis">';
-                tmp += '<h4>' + list[i].preis + "</div>";
-
-                //entfernen Button
-                tmp += '<div class="warenkorb_rechterContainer"><button class="warenkorb_entfernen">entfernen</button></div>';
+            $.ajax({
+                url: "http://localhost:8000/api/bestellung/alle",
+                method: "GET",
+                dataType: "json"
+            })
+            .done(function(httpResponse) {
+                var list = httpResponse.daten
                 
+                for (i = 0; i < 1; i++){
+                    var b = 0; //also in bestellung/alle die Position in der Liste (hier jetzt zum Beispiel die erste Bestellung) (später dann ändern)
+                    // was für i<...??
+                    for (i = 0; i < list[b].bestellpositionen.length; i++){
+                        $('DIV.warenkorb_main').append(
+                            $('<div>')
+                                .addClass('warenkorb_spiel')
+                                .append($('<a>').attr('href','kaufseite.html?spielId='+list[b].bestellpositionen[i].spielid).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', list[b].bestellpositionen[i].spiel.bilder[0].bildpfad)))
+                                .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(list[b].bestellpositionen[i].spiel.spielname)).append($('<h5>').text('Plattform: ' + list[b].bestellpositionen[i].spiel.spielplattform.name)).append($('<h5>').text('Erscheinungsjahr: ' + list[b].bestellpositionen[i].spiel.erscheinungsjahr)))
+                                .append(function(){
+                                    if (list[b].bestellpositionen[i].gekauft == 0){ //0 heißt das Spiel wird geliehen
+                                        return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + list[b].bestellpositionen[i].leihzeit + ' Tage'))
+                                    }else if (list[b].bestellpositionen[i].gekauft == 1){ //1 heißt das Spiel wird gekauft
+                                        return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP'))
+                                    }
+                                })
+                                .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(list[b].bestellpositionen[i].bruttopreis + '€')))
+                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').text('entfernen'))))
 
-                tmp += '</div>';
-            }
-            for (i = 0; i < 1; i++) {
-                //Gesamtpreis
-                tmp += '<div class="gesamtpreis_warenkorb"><hr><div class="gesamtpreis_warenkorb_links"><h4>Enth. MwSt.</h4><h3>Gesamtsumme</h3></div>';
-                tmp += '<div class="gesamtpreis_warenkorb_rechts"><h4>' + list_2[i].mwst + '</h4>';
-                tmp += '<h3>' + list_2[i].gesamtpreis + '</h3></div></div>';
-            }
-         
-            $('.warenkorb_main').html(tmp);
+                    }
+                    $('DIV.warenkorb_main').append(
+                        $('<div>')
+                            .addClass('gesamtpreis_warenkorb')
+                            .append($('<hr>'))
+                            .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
+                            .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(list[b].total.mehrwertsteuer + '€').append($('<h3>').text(list[b].total.brutto + '€'))))
+                    );
+                    
+                }
+            })
+            .fail(function(jqXHR, statusText, error) {
+                console.log(statusText);
+                alert("Es ist ein Fehler aufgetreten");
+            })
         });
     </script>
 </body>
