@@ -196,6 +196,17 @@ $('#dyntarget').html(content);
         })
         .done(function(httpResponse) {
             var list = httpResponse.daten
+            // Sorting list, latest games first in list
+            for (var i=0; i < list.length; i++) {
+                for (var j=i+1; j < list.length; j++) {
+                    if (list[i].erscheinungsjahr < list[j].erscheinungsjahr) {
+                        var old = list[i];
+                        list[i] = list[j];
+                        list[j] = old;
+                    }
+                }
+            }
+            // Grabbing the 5 latest Games, rendering HTML-Elements
             for (i = 0; i < 5; i++) {
                 if (i==0) {
                     $("DIV#dyntarget").append(
