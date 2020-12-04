@@ -63,6 +63,88 @@ class SpielDao {
         return result;
     }
 
+    loadByPlatform(id) {
+        const spielplattformDao = new SpielplattformDao(this._conn);
+        var plattformen = spielplattformDao.loadAll();
+        const genreDao = new GenreDao(this._conn);
+        var genres = genreDao.loadAll();
+        const kaufartDao = new KaufartDao(this._conn);
+        var kaufarten = kaufartDao.loadAll();
+        const mehrwertsteuerDao = new MehrwertsteuerDao(this._conn);
+        var taxes = mehrwertsteuerDao.loadAll();
+        const produktbildDao = new ProduktbildDao(this._conn);
+        var pictures = produktbildDao.loadAll();
+
+        var sql = "SELECT * FROM Spiel WHERE PlattformID=" + id;
+        var statement = this._conn.prepare(sql);
+        var result = statement.all();
+
+        if (helper.isArrayEmpty(result)) 
+            return [];
+
+        result = helper.arrayObjectKeysToLower(result);
+
+        for (var i = 0; i < result.length; i++) {
+            for (var element of plattformen) {
+                if (element.id == result[i].plattformid) {
+                    result[i].spielplattform = element;
+                    break;
+                }
+            }
+            delete result[i].plattformid;
+
+            for (var element of genres) {
+                if (element.id == result[i].genreid) {
+                    result[i].genre = element;
+                    break;
+                }
+            }
+            delete result[i].genreid;
+
+            for (var element of kaufarten) {
+                if (element.id == result[i].kaufartid) {
+                    result[i].kaufart = element;
+                    break;
+                }
+            }
+            delete result[i].kaufartid;
+
+            for (var element of taxes) {
+                if (element.id == result[i].mehrwertsteuerid) {
+                    result[i].mehrwertsteuer = element;
+                    break;
+                }
+            }
+            delete result[i].mehrwertsteuerid;
+
+            // if (helper.isNull(result[i].datenblattid)) {
+            //     result[i].datenblatt = null;
+            // } else {
+            //     result[i].datenblatt = downloadDao.loadById(result[i].datenblattid);
+            // }
+            // delete result[i].datenblattid;
+
+            result[i].bilder = [];
+            for (var element of pictures) {
+                if (element.spiel.id == result[i].id) {
+                    result[i].bilder.push(element);
+                }
+            }
+
+            result[i].kaufmehrwertsteueranteil = helper.round((result[i].nettokaufpreis / 100) * result[i].mehrwertsteuer.steuersatz);
+
+            result[i].bruttokaufpreis = helper.round(result[i].nettokaufpreis + result[i].kaufmehrwertsteueranteil);
+
+            result[i].leihmehrwertsteueranteil = helper.round((result[i].nettoleihpreis / 100) * result[i].mehrwertsteuer.steuersatz);
+
+            result[i].bruttoleihpreis = helper.round(result[i].nettoleihpreis + result[i].leihmehrwertsteueranteil);
+
+        }
+
+        return result;
+    }
+
+
     loadAll() {
         const spielplattformDao = new SpielplattformDao(this._conn);
         var plattformen = spielplattformDao.loadAll();
