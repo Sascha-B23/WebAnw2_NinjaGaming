@@ -159,13 +159,11 @@ function sortGames() {
                 // Deleting non-purchaseable Games from list 
                 for (var i=0; i < list.length; i++) {
                     if (list[i].kaufart.id == 2) {
-                        if (list.length > 1) {
-                            list.splice(i,1);
-                        }
-                        // Creating HTML Elements
-                        createGamesView(list);
+                        list.splice(i,1);
                     }
                 }
+                // Creating HTML Elements
+                createGamesView(list);
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
@@ -186,20 +184,10 @@ function sortGames() {
                 for (var i=0; i < list.length; i++) {
                     if (list[i].kaufart.id == 1) {
                         list.splice(i,1);
-                        console.log(createGamesView(list));
-                        // Creating HTML Elements
-                        createGamesView(list);
-                        // if (list.length > 1) {
-                        //     list.splice(i,1);
-                        // }
-                        // else {
-                        //     console.log("test");
-                        //     list = [];
-                        // }
-                        // // Creating HTML Elements
-                        // createGamesView(list);
                     }
                 }
+                // Creating HTML Elements
+                createGamesView(list);
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
