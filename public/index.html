@@ -28,8 +28,8 @@
         <table class="elementsContainer">
         <tr>
         <td>
-        <input type="text" placeholder="Suche nach"
-        class="search">
+        <input type="text" placeholder="Suche nach Spiel"
+        class="search" onchange="suche(this.value)">
         </td>
         <td>
         <a href="kaufseite.html"> <i class="material-icons">search</i>
@@ -95,6 +95,51 @@
 </body>
 <script src="JQuery_JS/Script.js"></script>
 <script src="JQuery_JS/urlParameter.js"></script>
+<script>
+    function suche(val) {
+        $.ajax({
+            url: "http://localhost:8000/api/spiel/alle",
+            method: "GET",
+            dataType: "json"
+        })
+        .done(function(httpResponse) {
+            var list = httpResponse.daten
+            var resultlist = [];
+            for (var i=0; i< list.length; i++) {
+                //Makes exact Searchinput like "Cyberpunk 2077 (Day-One-Edition)" possible
+                if (list[i].spielname.toLowerCase() === val.toLowerCase()) {
+                    resultlist.push(list[i]);
+                }
+                else if (list[i].spielname.toLowerCase().includes(val.toLowerCase())) {
+                    resultlist.push(list[i]);
+                }
+            }
+            // //Makes "one word" - Searchinput like "Cyberpunk" or "Borderlands" possible
+            // else if (list[i].spielname.split(' ')[0].toLowerCase() == val.toLowerCase()) {
+            //         resultlist.push(list[i]);
+            //     }
+            
+            if (resultlist.length == 0) {
+                alert("Keine Spiel zur Suchanfrage gefunden! Bitte erneut versuchen!");
+            }
+            else if (resultlist.length == 1) {
+                window.location.replace("kaufseite.html?id=" + resultlist[0].id);
+            }
+            else {
+                var ids = "";
+                for (var x=0; x < resultlist.length;x++){
+                    ids += resultlist[x].id  + " ";
+                }
+                window.location.replace("spielauswahl.html?ids=" + ids);
+            }
+
+        })
+        .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+        })
+    }
+</script>
 <script>
     $(document).ready(function() {
         $.ajax({

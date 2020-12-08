@@ -110,6 +110,34 @@
             $('H2#plattform').text('Fehlerhaft');
         }
         else {
+            if (existsUrlParameter('ids')) {
+                $.ajax({
+                    url: "http://localhost:8000/api/spiel/alle",
+                    method: "GET",
+                    dataType: "json"
+                })
+                .done(function(httpResponse) {
+                    var ids = getUrlParameterValue('ids');
+                    var ids = ids.split(" ");
+                    var list = httpResponse.daten;
+                    var result = [];
+                    for (var i=0; i < list.length; i++) {
+                        for (var y=0; y < ids.length; y++) {
+                            if (ids[y] == list[i].id){
+                                result.push(list[i]);
+                            }
+                        }
+                    }
+                    $('H2#plattform').text('Ergebnisse auf allen Plattformen: ' + result.length + " Ergebnisse.");
+                    createGamesView(result); // Methode ist in Sortierung.js
+                })
+                .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+            })
+            }
+
+            else {
             var id = getUrlParameterValue('spielplattformId');
             $.ajax({
             url: "http://localhost:8000/api/spiel/plattform/" + id,
@@ -124,6 +152,7 @@
             console.log(statusText);
             alert("Es ist ein Fehler aufgetreten");
             })
+        }
         }
     })
 </script>
