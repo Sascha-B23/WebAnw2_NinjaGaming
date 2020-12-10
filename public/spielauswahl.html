@@ -84,17 +84,19 @@
         else {
             var id = getUrlParameterValue('spielplattformId');
             $.ajax({
-            url: "http://localhost:8000/api/spielplattform/alle",
+            url: "http://localhost:8000/api/spiel/plattform/" + id,
             method: "GET",
             dataType: "json"
             })
             .done(function(httpResponse) {
                 var list = httpResponse.daten;
-                for (i = 0; i < list.length; i++) {
-                    if (list[i].id == id){
-                        $('H2#plattform').text('Plattform: ' + list[i].name);
-                    }
-                }
+                // for (i = 0; i < list.length; i++) {
+                //     if (list[i].id == id){
+                //         $('H2#plattform').text('Plattform: ' + list[i].name);
+                //     }
+                // }
+
+                $('H2#plattform').text('Plattform: ' + list[0].spielplattform.name);
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
