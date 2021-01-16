@@ -236,26 +236,16 @@ h2 {
 } */
 
 .elementmittig {
-<<<<<<< HEAD
-  width: 15%;
-=======
   width: 14%;
   margin-left: 2.75%;
   margin-right: 2.75%;
   margin-top: 1.7%;
->>>>>>> 3d162119975fc18f5403b502f7b950d3897d60b0
   text-align: center;
   color:#2c3e50;
   font-family: Arial, Helvetica, sans-serif;
   border: 1px solid #2c3e50;
   background-color: white;
   display: inline-block;
-<<<<<<< HEAD
-  margin-left: 2.4%;
-  margin-right: 2.4%;
-  margin-top: 2.4%;
-=======
->>>>>>> 3d162119975fc18f5403b502f7b950d3897d60b0
   }
 
 .elementmittig img{
