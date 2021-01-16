@@ -26,33 +26,19 @@
     
 
     <a href="warenkorb.html"><img id="Warenkorb" src="Bilder/Warenkorb.png" alt="Warenkorb"/></a>
-	
-
-	<!-- <h1 class="ueberschrift1">Fifa 21
-	<br><h3 class="ueberschrift2"> Plattform : PlayStation 4 | Alterseinstufung: USK ab 6 freigegeben</h3>
-    </h1> -->
-    <!--dynamisierung Hüseyin...-->
-    <h2>Fifa 21
-        <br><h3>Plattform: PlayStation 4 | Alterseinstufung: USK ab 6 freigegeben</h3>
+    <h2 id="Ueberschrifft">
+        <br><h3 id="Info"></h3>
     </h2>
     <hr>
-	<img class="fifa" src="Bilder/Fifa21.jpg" alt="fifa21">
-	
-	<div class="boxx">
-	<h3>Fifa 21</h3>
-	<br>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+	<img id="Bild" class="fifa" src="" alt="BildzumSpiel">	
+	<div class="boxx" id="Beschreibung">
 	</div>
-	
-	<div class="boxx1">
-	<h3>Kaufpreis: 49,99€</h3>
-	<br><h3>Preis zum leihen:
-	<br>5€/Tag</h3>
+	<div id="Preisdaten" class="boxx1">
 	</div>
 
-	<div class="kaufen_button">
-        <a href="warenkorb.html"><button class="button_innen" type="button">Kaufen</button></a>
+	<div id="Buttons" class="kaufen_button">
     
-    <select class="dropdownKauf">
+    <!-- <select class="dropdownKauf">
 		<option disabled selected>Anzahl Tage auswählen</option>
 		<option>1 Tag</option>
 		<option>2 Tage</option>
@@ -61,8 +47,7 @@
         <option>5 Tage</option>
         <option>7 Tage / 1 Woche</option>
         <option>14 Tage / 2 Wochen</option>
-    </select> 
-	<a href="warenkorb.html"><button class="button_innen" type="button">Leihen</button></a>
+    </select>   -->
     </div>
     <br><br>
 	<h2>Ähnliche Spiele</h2>
@@ -95,6 +80,61 @@
 <script src="JQuery_JS/urlParameter.js"></script>
 <script>
     $(document).ready(function() {
+        if(!hasUrlParameters()){
+            $('H2#Ueberschrifft').text('Fehlerhaft');
+        }
+        else {
+            var id = getUrlParameterValue('spielId');
+            $.ajax({
+            url: "http://localhost:8000/api/spiel/gib/" + id,
+            method: "GET",
+            dataType: "json"
+            })
+            .done(function(httpResponse) {
+                var spiel = httpResponse.daten;
+                $('H2#Ueberschrifft').text(spiel.spielname);
+                $('H3#Info').text("Plattform: " + spiel.spielplattform.name + " | Genre: " + spiel.genre.name);
+                $('IMG#Bild').attr("src",spiel.bilder[0].bildpfad);
+                $('DIV#Beschreibung').append($("<h3>").text(spiel.spielname));
+                $('DIV#Beschreibung').append($("<p>").text(spiel.beschreibung));
+                $('DIV#Preisdaten').append($("<h3>").text("Kaufpreis: "));
+                $('DIV#Preisdaten').append($("<h3>").text(spiel.bruttokaufpreis + " €"));
+                $('DIV#Preisdaten').append($("<h3>").text("Preis zum leihen: "));
+                $('DIV#Preisdaten').append($("<h3>").text( spiel.bruttoleihpreis + " €/Tag"));
+                $('DIV#Buttons').addClass("kaufen_button").append($("<a>").attr("href","warenkorb.html?addToBasket="+spiel.id).append($("<button>").addClass("button_innen").text("Kaufen")));
+                $('DIV#Buttons').append($("<select id='Dropdown'>").addClass("dropdownKauf").attr('onchange','urlleihdauer()'));
+                $('SELECT#Dropdown').append($("<option>").text("Anzahl Tage auswählen").attr('disabled','disabled'));
+                if (spiel.leihdauer < 7){
+                    for (var i=1; i < spiel.leihdauer ; i++) {
+                        $('SELECT#Dropdown').append($("<option>").text(i + " Tage"))
+                    }
+                }
+                else {
+                    for (var i=1; i < 7 ; i++) {
+                        $('SELECT#Dropdown').append($("<option>").text(i + " Tag(e)"))
+                    }
+                    $('SELECT#Dropdown').append($("<option>").text("7 Tage/Eine Woche"))
+                    if (spiel.leihdauer == 14) {
+                        $('SELECT#Dropdown').append($("<option>").text("14 Tage/Zwei Wochen"))
+                    }
+                }
+                $('DIV#Buttons').append($("<a id='leihlink'>").attr("href","warenkorb.html?addToBasket="+spiel.id + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text()).append($("<button>").addClass("button_innen").text("Leihen")));
+
+            })
+            .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+            })
+        }
+    })
+</script>
+<script>
+    function urlleihdauer() {
+        $("a#leihlink").attr("href", "warenkorb.html?addToBasket="+ getUrlParameterValue('spielId') + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text().split(" ")[0]);
+    }
+</script>
+<script>
+    $(document).ready(function() {
         $.ajax({
             url: "http://localhost:8000/api/spiel/alle",
             method: "GET",
@@ -102,32 +142,24 @@
         })
         .done(function(httpResponse) {
             var list = httpResponse.daten
-            for (i = 0; i < 5; i++) {
-                if (i==0) {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("randelement")
-                            .append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen"))))
-                    );
+            // Sorting list, latest games first in list
+            for (var i=0; i < list.length; i++) {
+                for (var j=i+1; j < list.length; j++) {
+                    if (list[i].erscheinungsjahr < list[j].erscheinungsjahr) {
+                        var old = list[i];
+                        list[i] = list[j];
+                        list[j] = old;
+                    }
                 }
-                else if (i==4) {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("randelementR")
-                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId"+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
-                }
-                else {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("elementmittig")
-                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
-                }
+            }
+
+            for (var i=0; i < 5; i++) {
+                $("DIV#dyntarget").append(
+                    $("<div>")
+                        .addClass("elementmittig")
+                        .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                        .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
             }
         })
         .fail(function(jqXHR, statusText, error) {

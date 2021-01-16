@@ -160,32 +160,41 @@
                 }
             }
             // Grabbing the 5 latest Games, rendering HTML-Elements
-            for (i = 0; i < 5; i++) {
-                if (i==0) {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("randelement")
-                            .append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen"))))
-                    );
-                }
-                else if (i==4) {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("randelementR")
-                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId"+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
-                }
-                else {
-                    $("DIV#dyntarget").append(
-                        $("<div>")
-                            .addClass("elementmittig")
-                            .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                            .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                            .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
-                }
+            // for (i = 0; i < 5; i++) {
+            //     if (i==0) {
+            //         $("DIV#dyntarget").append(
+            //             $("<div>")
+            //                 .addClass("randelement")
+            //                 .append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+            //                 .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+            //                 .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen"))))
+            //         );
+            //     }
+            //     else if (i==4) {
+            //         $("DIV#dyntarget").append(
+            //             $("<div>")
+            //                 .addClass("randelementR")
+            //                 .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+            //                 .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+            //                 .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId"+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
+            //     }
+            //     else {
+            //         $("DIV#dyntarget").append(
+            //             $("<div>")
+            //                 .addClass("elementmittig")
+            //                 .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+            //                 .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+            //                 .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
+            //     }
+            // }
+
+            for (var i=0; i < 5; i++) {
+                $("DIV#dyntarget").append(
+                    $("<div>")
+                        .addClass("elementmittig")
+                        .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                        .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
             }
         })
         .fail(function(jqXHR, statusText, error) {
