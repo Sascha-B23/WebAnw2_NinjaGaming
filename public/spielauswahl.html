@@ -4,17 +4,18 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="Css/Css_Final.css">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-
 <body>
+    <!--Header-->
     <header>
         <h1>Ninja-Gaming
             <br>Dein Shop fürs Ausleiehen und Kaufen von Games
         </h1>
         <img id ="titelbild" src="Bilder/Ninja.png" alt="Ninja">
     </header>
+    <!--Header End-->
 
+    <!--Navbar-->
     <div id="nav">
 		<a href="index.html"> Startseite</a>
 		<a href="spielauswahl.html?spielplattformId=2"> PC</a>
@@ -23,46 +24,59 @@
 		<a href="impressum.html"> Impressum</a>
 		<a href="kontakt.html">Kontakt</a>
     </div>
-   
+    <!--Navbar End-->
+    
+    <!--Warenkorb-->
     <a href="warenkorb.html"><img id="Warenkorb" src="Bilder/Warenkorb.png" alt="Warenkorb"/></a>
+    <!--Warenkorb End-->
 
+    <!--Überschrift Plattform-->
     <h2 id="plattform"></h2>
+    <!--Überschrift Plattform End-->
 
-    <select name="Sortiere nach" id ="sortierung">
+    <!--Select-Bar-->
+    <select name="Sortiere nach" id ="sortierung" onchange="sortGames()">
         <option value="" disabled selected>Sortiere nach:</option>
-        <option value="PreisAuf">Preis: Aufsteigend</option>
-        <option value="PreisAB">Preis: Absteigend</option>
+        <option value="PreisAuf">Kaufpreis: Aufsteigend</option>
+        <option value="PreisAB">Kaufpreis: Absteigend</option>
         <option value="ErscheinungsdatumAuf">Erscheinungsjahr: Aufsteigend</option>
         <option value="ErscheinungsdatumAb">Erscheinungsjahr: Absteigend</option>
-        <option value="Nur Kaufen">Nur zum Kaufen</option>
+        <option value="NurKaufen">Nur zum Kaufen</option>
         <option value="NurLeihen">Nur zum Leihen</option>
     </select>
+
+    <!--Select-Bar End-->
 
     <div id="SpieleContainer">
         <!-- Hier werden die Einzelnen Spiele gerendert-->
     </div>
+
+    <!--Footer-->
     <footer>
-            <div class="Footer_links">
-                <a href="impressum.html">Impressum</a> <br><br>
-                <a href="kontakt.html">Kontakt</a> <br><br>
-                <a href="support.html">Support</a>
-            </div>
-            <div class="Footer_mitte">
-                <p>Zahlungsarten:</p> <br>
-                <img src="Bilder/Paypal-logo.jpg" alt="Paypal" >
-                <img src="Bilder/Barzahlung_logo.png" alt="Barzahlung" >
-            </div>
-     
-            <div class="Footer_rechts">
-                <p>Soziale Netzwerke:</p>
-                <a href="https://de-de.facebook.com/"><img src="Bilder/Facebook_logo.png" alt="Facebook"></a>
-                <a href="https://twitter.com/?lang=de"><img src="Bilder/Twitter_logo.png" alt="Twitter"></a>
-                <a href="https://www.instagram.com/"><img src="Bilder/Instagram_logo.jpg" alt="Facebook"></a>
-            </div>
-        </footer>
+        <div class="Footer_links">
+            <a href="impressum.html">Impressum</a> <br><br>
+            <a href="kontakt.html">Kontakt</a> <br><br>
+            <a href="support.html">Support</a>
+        </div>
+        <div class="Footer_mitte">
+            <p>Zahlungsarten:</p> <br>
+            <img src="Bilder/Paypal-logo.jpg" alt="Paypal" >
+            <img src="Bilder/Barzahlung_logo.png" alt="Barzahlung" >
+        </div>
+        <div class="Footer_rechts">
+            <p>Soziale Netzwerke:</p>
+            <a href="https://de-de.facebook.com/"><img src="Bilder/Facebook_logo.png" alt="Facebook"></a>
+            <a href="https://twitter.com/?lang=de"><img src="Bilder/Twitter_logo.png" alt="Twitter"></a>
+            <a href="https://www.instagram.com/"><img src="Bilder/Instagram_logo.jpg" alt="Facebook"></a>
+        </div>
+    </footer>
+    <!--Footer End-->
 </body>
+<!--Eingebundene Scripts-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="JQuery_JS/urlParameter.js"></script>
 <script>
+    // Showing Current Plattform in Header e.g. "Plattform: PS4". (Working with URL-Parameters).
     $(document).ready(function() {
         if(!hasUrlParameters()){
             $('H2#plattform').text('Fehlerhaft');
@@ -70,17 +84,19 @@
         else {
             var id = getUrlParameterValue('spielplattformId');
             $.ajax({
-            url: "http://localhost:8000/api/spielplattform/alle",
+            url: "http://localhost:8000/api/spiel/plattform/" + id,
             method: "GET",
             dataType: "json"
             })
             .done(function(httpResponse) {
                 var list = httpResponse.daten;
-                for (i = 0; i < list.length; i++) {
-                    if (list[i].id == id){
-                        $('H2#plattform').text('Plattform: ' + list[i].name);
-                    }
-                }
+                // for (i = 0; i < list.length; i++) {
+                //     if (list[i].id == id){
+                //         $('H2#plattform').text('Plattform: ' + list[i].name);
+                //     }
+                // }
+
+                $('H2#plattform').text('Plattform: ' + list[0].spielplattform.name);
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
@@ -88,59 +104,59 @@
             })
         }
     })
-  </script>
-  <script>
+</script>
+<script>
+    // Rendering HTML-Elements without choosing sorted sequence.(Working with URL-Parameters).
     $(document).ready(function() {
         if(!hasUrlParameters()){
             $('H2#plattform').text('Fehlerhaft');
         }
         else {
+            if (existsUrlParameter('ids')) {
+                $.ajax({
+                    url: "http://localhost:8000/api/spiel/alle",
+                    method: "GET",
+                    dataType: "json"
+                })
+                .done(function(httpResponse) {
+                    var ids = getUrlParameterValue('ids');
+                    var ids = ids.split(" ");
+                    var list = httpResponse.daten;
+                    var result = [];
+                    for (var i=0; i < list.length; i++) {
+                        for (var y=0; y < ids.length; y++) {
+                            if (ids[y] == list[i].id){
+                                result.push(list[i]);
+                            }
+                        }
+                    }
+                    $('H2#plattform').text('Ergebnisse auf allen Plattformen: ' + result.length + " Ergebnisse.");
+                    createGamesView(result); // Methode ist in Sortierung.js
+                })
+                .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+            })
+            }
+
+            else {
             var id = getUrlParameterValue('spielplattformId');
             $.ajax({
-            url: "http://localhost:8000/api/spiel/alle",
+            url: "http://localhost:8000/api/spiel/plattform/" + id,
             method: "GET",
             dataType: "json"
             })
             .done(function(httpResponse) {
                 var list = httpResponse.daten;
-                var content=''
-                for (i = 0; i < list.length; i++) {
-                    if(list[i].spielplattform.id == id) {
-                        // $('DIV#SpieleContainer').append($('<div>').addClass("spiel").text(list[i].spielname)) -- Erste "einfache" Methode gewählt, weil übersichtlicher
-                        content += '<div class="spiel">';
-                        content += '<a href="kaufseite.html?spielId=' + list[i].id + '"><img class="spielanzeige" src="' + list[i].bilder[0].bildpfad + '" alt="Spiel"/></a>';
-                        content += '<div class="spielbeschreibung">';
-                        content += '<h3>' + list[i].spielname + '</h3>';
-                        content += '<h4>Genre: ' + list[i].genre.name + '</h4>';
-                        content += '<h4>Erscheinungsjahr: ' + list[i].erscheinungsjahr + '</h4>';
-                        content += '<p>' + list[i].beschreibung + '</p>';
-                        content += '</div>';
-                        content += '<div class="rechterContainer">';
-                        content += '<h3>Spiel jetzt erwerben:</h3>';
-                        if (list[i].kaufart.id == 1 || list[i].kaufart.id == 3) {
-                            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel">Jetzt kaufen für ' + list[i].bruttokaufpreis+ '€</button></a>';
-                        }
-                        else {
-                            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt kaufen für ' + list[i].bruttokaufpreis + '€</button></a>';
-                        }
-                        if (list[i].kaufart.id == 2 || list[i].kaufart.id == 3) {
-                            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" >Jetzt leihen für '+ list[i].bruttoleihpreis + '€/Tag</button></a>';
-                        }
-                        else {
-                            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt leihen für '+ list[i].bruttoleihpreis + '€/Tag</button></a>';;
-                        }
-                        content += '</div>';
-                        content += '</div>';
-                        $('DIV#SpieleContainer').html(content);
-                    }
-                       
-                }
-            })
+                createGamesView(list); // Methode ist in Sortierung.js
+                })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
             alert("Es ist ein Fehler aufgetreten");
             })
         }
+        }
     })
-  </script>
+</script>
+<script src="JQuery_JS/Sortierung.js"></script>
 </html>

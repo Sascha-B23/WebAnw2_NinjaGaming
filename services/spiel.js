@@ -17,6 +17,20 @@ serviceRouter.get("/spiel/gib/:id", function(request, response) {
     }
 });
 
+serviceRouter.get("/spiel/plattform/:id", function(request, response) {
+    helper.log("Service Spiel: Client requested one record, id=" + request.params.id);
+
+    const spielDao = new SpielDao(request.app.locals.dbConnection);
+    try {
+        var result = spielDao.loadByPlatform(request.params.id);
+        helper.log("Service Spiel: Record loaded");
+        response.status(200).json(helper.jsonMsgOK(result));
+    } catch (ex) {
+        helper.logError("Service Spiel: Error loading record by id. Exception occured: " + ex.message);
+        response.status(400).json(helper.jsonMsgError(ex.message));
+    }
+});
+
 serviceRouter.get("/spiel/alle/", function(request, response) {
     helper.log("Service Spiel: Client requested all records");
 
