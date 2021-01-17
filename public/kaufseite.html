@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="Css/Css_Final.css">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="JQuery_JS/Sortierung.js"></script>
 </head>
 
 <body>
@@ -87,10 +88,15 @@
                 $('DIV#Beschreibung').append($("<h3>").text(spiel.spielname));
                 $('DIV#Beschreibung').append($("<p>").text(spiel.beschreibung));
                 $('DIV#Preisdaten').append($("<h3>").text("Kaufpreis: "));
-                $('DIV#Preisdaten').append($("<h3>").text(spiel.bruttokaufpreis + " €"));
+                $('DIV#Preisdaten').append($("<h3>").text(toKomma(spiel.bruttokaufpreis) + " €"));
                 $('DIV#Preisdaten').append($("<h3>").text("Preis zum leihen: "));
-                $('DIV#Preisdaten').append($("<h3>").text( spiel.bruttoleihpreis + " €/Tag"));
-                $('DIV#Buttons').addClass("kaufen_button").append($("<a>").attr("href","warenkorb.html?addToBasket="+spiel.id).append($("<button>").addClass("button_innen").text("Kaufen")));
+                if (spiel.kaufart.id == 1 || spiel.kaufart.id == 3) {
+                    $('DIV#Buttons').addClass("kaufen_button").append($("<a>").attr("href","warenkorb.html?addToBasket="+spiel.id).append($("<button>").addClass("button_innen").text("Kaufen")));
+                }
+                else {
+                    $('DIV#Buttons').addClass("kaufen_button").append($("<a>").attr("href","warenkorb.html?addToBasket="+spiel.id).append($("<button>").addClass("button_innen").attr("disabled","disabled").text("Kaufen")));
+                }
+                $('DIV#Preisdaten').append($("<h3>").text(toKomma(spiel.bruttoleihpreis) + " €/Tag"));
                 $('DIV#Buttons').append($("<select id='Dropdown'>").addClass("dropdownKauf").attr('onchange','urlleihdauer()'));
                 $('SELECT#Dropdown').append($("<option>").text("Anzahl Tage auswählen").attr('disabled','disabled'));
                 if (spiel.leihdauer < 7){
@@ -107,7 +113,12 @@
                         $('SELECT#Dropdown').append($("<option>").text("14 Tage/Zwei Wochen"))
                     }
                 }
-                $('DIV#Buttons').append($("<a id='leihlink'>").attr("href","warenkorb.html?addToBasket="+spiel.id + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text()).append($("<button>").addClass("button_innen").text("Leihen")));
+                if (spiel.kaufart.id == 2 || spiel.kaufart.id == 3) {
+                    $('DIV#Buttons').append($("<a id='leihlink'>").attr("href","warenkorb.html?addToBasket="+spiel.id + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text().split(" ")[0]).append($("<button>").addClass("button_innen").text("Leihen")));
+                }
+                else {
+                    $('DIV#Buttons').append($("<a id='leihlink'>").attr("href","warenkorb.html?addToBasket="+spiel.id + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text().split(" ")[0]).append($("<button>").addClass("button_innen").attr("disabled","disabled").text("Leihen")));
+                }
 
             })
             .fail(function(jqXHR, statusText, error) {
@@ -147,7 +158,7 @@
                     $("<div>")
                         .addClass("elementmittig")
                         .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(toKomma(list[i].bruttokaufpreis) + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
                         .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
             }
         })

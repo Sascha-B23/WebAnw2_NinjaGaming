@@ -41,6 +41,8 @@ function getJSONSessionItem(label) {
 // removes a session item by label
 function removeSessionItem(label) {
     localStorage.removeItem(label);
+    refreshPage();
+    console.log(basket);
 }
 
 // clears complete session / deletes all session items
@@ -67,4 +69,29 @@ function isJSONString(str) {
 // function checks if given value is null or undefined
 function isNullOrUndefined(val) {
     return val === null || val === undefined;
+}
+
+function toKomma(val) {
+    var n = val.toString();
+    var splits = n.split(".");
+    var nummer = splits[0] + ","  + splits[1];
+    return nummer;
+}
+
+function removeItem(val,pos) {
+    val = val.filter(function(item) {
+        return item !== pos
+    })
+
+    return val;
+}
+
+function refreshPage() {
+    window.location = window.location.href.split("?")[0];
+}
+
+function removeElement(pos) {
+    basket.splice(pos,1);
+    setJSONSessionItem('basket', basket);
+    refreshPage();
 }

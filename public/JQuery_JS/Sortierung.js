@@ -13,16 +13,16 @@ function createGamesView(list) {
         content += '<div class="rechterContainer">';
         content += '<h3>Spiel jetzt erwerben:</h3>';
         if (list[i].kaufart.id == 1 || list[i].kaufart.id == 3) {
-            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel">Jetzt kaufen für ' + list[i].bruttokaufpreis+ '€</button></a>';
+            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel">Jetzt kaufen für ' + toKomma(list[i].bruttokaufpreis)+ '€</button></a>';
         }
         else {
-            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt kaufen für ' + list[i].bruttokaufpreis + '€</button></a>';
+            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt kaufen für ' + toKomma(list[i].bruttokaufpreis) + '€</button></a>';
         }
         if (list[i].kaufart.id == 2 || list[i].kaufart.id == 3) {
-            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" >Jetzt leihen für '+ list[i].bruttoleihpreis + '€/Tag</button></a>';
+            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" >Jetzt leihen für '+ toKomma(list[i].bruttoleihpreis) + '€/Tag</button></a>';
         }
         else {
-            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt leihen für '+ list[i].bruttoleihpreis + '€/Tag</button></a>';;
+            content += '<a href="kaufseite.html?spielId='+ list[i].id + '"><button class="ZumSpiel" disabled>Jetzt leihen für '+ toKomma(list[i].bruttoleihpreis) + '€/Tag</button></a>';;
         }
         content += '</div>';
         content += '</div>';
@@ -195,3 +195,10 @@ function sortGames() {
             })
     }
   }
+
+function toKomma(val) {
+    var n = val.toString();
+    var splits = n.split(".");
+    var nummer = splits[0] + ","  + splits[1];
+    return nummer;
+}

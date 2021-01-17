@@ -128,25 +128,47 @@
               console.log(basket);
               if (basket.length == 0) {
               // warenkorb_leer noch in css anlegen
-                 $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
+                //  $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
               }
               else {
                   //hier dynamischen Code eintragen 
                   //angezeigt werden muss: Spielbild, Spielname, Plattform, Erscheinungsjahr, Gekauft/Leihdauer,
                   // Preis und entfernen Button
                   //ganz unten noch enth. MwSt. und Gesamtsumme  
-                  $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
-                //   for (i = 0; i < basket.bestellpositionen.length; i++){
-                //       //spiel.bilder[1].bildpfad
-                //   }
+                    for (var i=0; i < basket.length; i++) {
+                        if (basket[i].leihdauer == 0) {
+                            $('DIV.warenkorb_main').append(
+                            $('<div>')
+                                .addClass('warenkorb_spiel')
+                                .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
+                                .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
+                                .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP')))
+                                .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(basket[i].bruttokaufpreis) + '€')))
+                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))))
+                        }
+                        else if (basket[i].leihdauer > 0) {
+                            $('DIV.warenkorb_main').append(
+                            $('<div>')
+                                .addClass('warenkorb_spiel')
+                                .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
+                                .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
+                                .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + basket[i].leihdauer + ' Tage')))
+                                .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma((basket[i].bruttoleihpreis * basket[i].leihdauer).toFixed(2)) + '€')))
+                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))));
+                        }
+                        // GANZER WRENKORB LEEREN: removeSessionItem('basket')
+                        
+                    }
+                    $('DIV.zur_kasse').append($('<button>').attr("onclick", "removeSessionItem('basket')").text("Kompletten Einkaufskorb leeren"));
+
               }
+
           }
   </script>
 <script>
-
 // WARENKORB WIRD NOCH GEÄNDERT (SO WIE IN DER PRAKTIKUMSSTUNDE GEZEIGT MIT SESSION ID USW)
         // initialisierung (globale variable)
-        var basket = [];
+    var basket = [];
         $(document).ready(function() {
             // schauen ob in der session bereits ein warenkorb existiert, falls ja diesen holen
             if (existsSessionItem('basket')){
@@ -161,50 +183,53 @@
                 var productId = getUrlParameterValue('addToBasket');
                 var leihdauer = 0;
                 if (existsUrlParameter('leihdauer')){
-                    var leihdauer = getUrlParameterValue('leihdauer');
-                }
-            
-                var loadedProduct;
+                     var leihdauer = getUrlParameterValue('leihdauer');
+                 }
+
                 $.ajax({
                     url: 'http://localhost:8000/api/spiel/gib/' + productId,
                     method: 'GET',
                     dataType: 'json'
                 })
                 .done(function(httpResponse) {
-                    loadedProduct = httpResponse.daten
+                    var spiel = httpResponse.daten
+                    var idx = -1;
+                    var idx = -1;
+                    for (i = 0; i < basket.length; i++) {
+                        if (basket[i].spielId === spiel.id) {
+                        idx = i;
+                        alert("Artikel schon im Warenkorb!")
+                        break;
+                        }
+                    }
+
+                    if (idx === -1) {
+                        var bestellposition = {
+                            spielId :   spiel.id,
+                            spielname : spiel.spielname,
+                            spielbild : spiel.bilder[0].bildpfad,
+                            plattform : spiel.spielplattform.name,
+                            erscheinungsjahr : spiel.erscheinungsjahr,
+                            leihdauer : leihdauer,
+                            kaufpreis : spiel.nettokaufpreis,
+                            leihpreis : spiel.nettoleihpreis,
+                            mehrwertsteuer : spiel.mehrwertsteuer.steuersatz,
+                            bruttokaufpreis : spiel.bruttokaufpreis,
+                            bruttoleihpreis : spiel.bruttoleihpreis
+
+                        };
+                        basket.push(bestellposition);
+                        console.log(basket.length);
+                        setJSONSessionItem('basket', basket);
+                        refreshPage();
+                    }
                 })
+
                 .fail(function(jqXHR, statusText, error) {
                 console.log(statusText);
                 alert("Es ist ein Fehler aufgetreten");
                 });
-
-                var bestellpositionen;
-                //unterscheiden ob gekauft oder geliehen
-                if (leihdauer > 0){    //geliehen
-                    bestellpositionen = {
-                        spielID : productId,
-                        spiel : loadedProduct,
-                        gekauft : 0,
-                        leihzeit : leihdauer
-                    }
-                }
-                else {      //gekauft
-                    var bestellpositionen = {
-                        
-                        spielID : productId,
-                        spiel : loadedProduct,
-                        gekauft : 1,
-                        leihzeit : 0
-                    };
-                }
-                basket.push(bestellpositionen);
-                console.log(basket);
-
-                setJSONSessionItem('basket', basket);
             }
-        
-            showBasket();
-        
         });        
         // $(document).ready(function() {
         //     $.ajax({
@@ -251,5 +276,9 @@
         //     })
         // });
     </script>
+<script>
+    $(document).ready(function() {
+        showBasket(); })
+</script>
 </body>
 </html>
