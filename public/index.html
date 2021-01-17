@@ -43,19 +43,19 @@
     <div class="slideshow-container">
         <div class="mySlides fade">
             <div class="numbertext">1 / 3</div>
-            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner1.jpg" style="width:100%" ></a>
+            <a href="kaufseite.html?spielId=5"><img class="slideIMG" src="Bilder/Banner1.jpg" style="width:100%" ></a>
             <div class="text"></div>
         </div>
     
         <div class="mySlides fade">
             <div class="numbertext">2 / 3</div>
-            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner2.jpg" style="width:100%" ></a>
+            <a href="kaufseite.html?spielId=8"><img class="slideIMG" src="Bilder/Banner2.jpg" style="width:100%" ></a>
             <div class="text"></div>
         </div>
 
         <div class="mySlides fade">
             <div class="numbertext">3 / 3</div>
-            <a href="kaufseite.html"><img class="slideIMG" src="Bilder/Banner3.jpg"style="width:100%"></a>
+            <a href="kaufseite.html?spielId=7"><img class="slideIMG" src="Bilder/Banner3.jpg"style="width:100%"></a>
             <div class="text"></div>
         </div>
 
@@ -187,13 +187,12 @@
             //                 .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
             //     }
             // }
-
             for (var i=0; i < 5; i++) {
                 $("DIV#dyntarget").append(
                     $("<div>")
                         .addClass("elementmittig")
                         .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(list[i].bruttokaufpreis + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(toKomma(list[i].bruttokaufpreis) + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
                         .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
             }
         })
@@ -203,4 +202,5 @@
         })
 });
 </script>
+<script src="JQuery_JS/Sortierung.js"></script>
 </html>
