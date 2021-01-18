@@ -23,3 +23,37 @@ function createFooter() {
   .append($("<a>").attr("href","https://www.instagram.com/").append($("<img>").attr("src","Bilder/Instagram_logo.jpg"))));
 
 }
+
+function createPerson(obj) {
+  $.ajax({
+    url: "http://localhost:8000/api/person",
+    method: "post",
+    contentType: "application/json",
+    data: JSON.stringify(obj)
+    })
+    .done(function (response) {
+      console.log(response.daten.id)
+        var id = toString(response.daten.id);
+    })
+    .fail(function (jqXHR, statusText, error) {
+    console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+    });
+
+}
+
+// function existsPerson(vorname,nachname,mobilnummer,email) {
+//   $.ajax({
+//     url: "http://localhost:8000/api/person/existiert/" + vorname + "/" + nachname + "/" + mobilnummer + "/" + email,
+//     method: "get",
+//     dataType: "json"
+//     })
+//     .done(function(httpResponse) {
+//         var erg = httpResponse.daten;
+//         console.log(erg.existiert);
+//         return httpResponse.daten.existiert;
+//     })
+//     .fail(function(jqXHR, statusText, error) {
+//     console.log(statusText);
+//     alert("Es ist ein Fehler aufgetreten");
+//     });
+// }

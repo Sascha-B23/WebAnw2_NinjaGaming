@@ -139,7 +139,7 @@ class BestellpositionDao {
         return false;
     }
 
-    create(bestellungid = 1, spielid = 1, gekauft = 1, leihzeit = 7) {
+    create(bestellungid, spielid, gekauft, leihzeit) {
         var sql = "INSERT INTO Bestellposition (BestellungID,SpielID,Gekauft,Leihzeit) VALUES (?,?,?,?)";
         var statement = this._conn.prepare(sql);
         var params = [bestellungid, spielid, gekauft, leihzeit];
@@ -148,8 +148,8 @@ class BestellpositionDao {
         if (result.changes != 1) 
             throw new Error("Could not insert new Record. Data: " + params);
 
-        var newObj = this.loadById(result.lastInsertRowid);
-        return newObj;
+        // var newObj = this.loadById(result.lastInsertRowid);
+        // return newObj;
     }
 
     update(id, bestellungid = 1, spielid = 1, gekauft = 1, leihzeit = 7) {

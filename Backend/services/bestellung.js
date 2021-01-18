@@ -56,16 +56,17 @@ serviceRouter.post("/bestellung", function(request, response) {
     } else {
         request.body.bestellzeitpunkt = helper.parseGermanDateTimeString(request.body.bestellzeitpunkt);
     }
-    if (helper.isUndefined(request.body.besteller)) {
+    if (helper.isUndefined(request.body.bestellerid)) {
+        errorMsgs.push("besteller nicht gesetz");
         request.body.besteller = null;
-    } else if (helper.isUndefined(request.body.besteller.id)) {
+    } else if (helper.isUndefined(request.body.bestellerid)) {
         errorMsgs.push("besteller gesetzt, aber id fehlt");
     } else {
-        request.body.besteller = request.body.besteller.id;
+        request.body.besteller = request.body.bestellerid;
     }
-    if (helper.isUndefined(request.body.zahlungsart)) {
+    if (helper.isUndefined(request.body.zahlungsartid)) {
         errorMsgs.push("zahlungsart fehlt");
-    } else if (helper.isUndefined(request.body.zahlungsart.id)) {
+    } else if (helper.isUndefined(request.body.zahlungsartid)) {
         errorMsgs.push("zahlungsart gesetzt, aber id fehlt");
     }
     if (helper.isUndefined(request.body.bestellpositionen)) {
@@ -84,9 +85,10 @@ serviceRouter.post("/bestellung", function(request, response) {
 
     const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
     try {
-        var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.besteller, request.body.zahlungsart.id, request.body.bestellpositionen);
+        var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.bestellerid, request.body.zahlungsartid, request.body.bestellpositionen);
         helper.log("Service Bestellung: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
+        return result.id;
     } catch (ex) {
         helper.logError("Service Bestellung: Error creating new record. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
@@ -140,7 +142,8 @@ serviceRouter.put("/bestellung", function(request, response) {
     } catch (ex) {
         helper.logError("Service Bestellung: Error updating record by id. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));
-    }    
+    }  
+
 });
 
 serviceRouter.delete("/bestellung/:id", function(request, response) {

@@ -53,8 +53,9 @@ serviceRouter.get("/person/existiert/:vorname/:nachname/:mobilnummer/:email", fu
     const personDao = new PersonDao(request.app.locals.dbConnection);
     try {
         var result = personDao.exists(request.params.vorname, request.params.nachname, request.params.mobilnummer, request.params.email);
-        helper.log("Service Person: Check if record exists by vorname=" + request.params.vorname + ", result=" + result);
-        response.status(200).json(helper.jsonMsgOK({ "id": request.params.id, "existiert": result }));
+        // Wenn Result = -1, heißt es, dass die Person noch nicht existiert, falls diese aber doch existiert, ist das Result die ID der Person
+        helper.log("Service Person: Check if record exists by vorname=" + request.params.vorname + ", result(If result is -1, the Person does not exist, otherwise it´s the Id of the Person)=" + result);
+        response.status(200).json(helper.jsonMsgOK({ "id": result, "existiert": result }));
     } catch (ex) {
         helper.logError("Service Person: Error checking if record exists. Exception occured: " + ex.message);
         response.status(400).json(helper.jsonMsgError(ex.message));

@@ -144,7 +144,7 @@ class BestellungDao {
 
         if (bestellpositionen.length > 0) {
             for (var element of bestellpositionen) {
-                bestellpositionDao.create(result.lastInsertRowid, element.spiel.id, element.gekauft, element.leihzeit);
+                bestellpositionDao.create(result.lastInsertRowid, element.spielid, element.gekauft, element.leihzeit);
             }
         }
 

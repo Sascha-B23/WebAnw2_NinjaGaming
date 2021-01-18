@@ -81,15 +81,16 @@ class PersonDao {
     }
 
     exists(vorname = "", nachname = "", mobilnummer = "", email = "") {
-        var sql = "SELECT COUNT(ID) AS cnt FROM Person WHERE VORNAME=? AND NACHNAME=? AND MOBILNUMMER=? AND EMAIL=?";
+        var sql = "SELECT COUNT(ID) as cnt, ID as id FROM Person WHERE VORNAME=? AND NACHNAME=? AND MOBILNUMMER=? AND EMAIL=?";
         var statement = this._conn.prepare(sql);
         var params = [vorname, nachname, mobilnummer, email];
         var result = statement.get(params);
 
+        // Wenn der Eintrag existiert, das heißt wenn die Person schon in der Datenbank ist, wird die ID der Person zurückgegeben
         if (result.cnt == 1) 
-            return true;
-
-        return false;
+            return result.id;
+        // Ansonsten wird -1 zurückgegeben
+        return -1;
     }
 
     create(vorname = "", nachname = "", mobilnummer = "", email = "") {

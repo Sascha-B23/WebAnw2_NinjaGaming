@@ -38,7 +38,7 @@
    
                 <div class="kasten_container"> 
                     <div class="select-box"> <br> <br>
-                        <select class ="inputKlasse">
+                        <select id="zahlart" class ="inputKlasse">
                             <option disabled selected>Zahlungsart auswählen</option>
                             <option>PayPal</option>
                             <option>Barzahlung</option>
@@ -55,7 +55,7 @@
 
             
                     <div class="zahlbutton">
-           <br>  <a ><button class="ZumSpiel" id="zumSpiel">
+           <br>  <a id="zahlen"><button class="ZumSpiel" id="zumSpiel">
                         Bezahlen
                         </button></a>
                     </div>
@@ -92,37 +92,135 @@
 
         var obj = { "vorname": vorname, "nachname": nachname, "mobilnummer" : mobilnummer, "email" : email };
 
-        console.log(obj);
-        console.log(JSON.stringify(obj));
-		$.ajax({
+        $.ajax({
             url: "http://localhost:8000/api/person/existiert/" + vorname + "/" + nachname + "/" + mobilnummer + "/" + email,
             method: "get",
             dataType: "json"
             })
             .done(function(httpResponse) {
                 var erg = httpResponse.daten;
-                if (erg.existiert) {
-                    alert("User existiert schon.");
-                }
-                else {
+                if (erg.existiert === -1) {
                     $.ajax({
                         url: "http://localhost:8000/api/person",
                         method: "post",
-				        contentType: "application/json",
-				        data: JSON.stringify(obj)
+                        contentType: "application/json",
+                        data: JSON.stringify(obj)
                         })
                         .done(function (response) {
-                            console.log(response);
-                            })
+                            var PersonId = response.daten.id;
+                            console.log(response.daten.id);
+                            var zahlId;
+                            if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
+                                zahlId =2;
+                            }
+                            else if ($("SELECT#zahlart").find(":selected").text() === "PayPal") {
+                                zahlId =1;
+                            }
+                            else {
+                                alert("Zahlart auswählen!");
+                            }
+                            var basket = JSON.parse(localStorage.getItem("basket"));
+
+                            // var basket = localStorage.getItem("basket");
+                            // var splits = basket.split(",");
+                            // for (var i=0; i < splits.length; i++) {
+                            //     split[0].slice(-1) 
+                            //      if (Number.isInteger(i/11)) {
+
+                            //      }
+                            //      if (Number.isInteger(i/5)) {
+
+                            //      }
+                            //  }
+                            var bestellpositionen = [];
+                            console.log(basket.length);
+                            for (var i=0; i < basket.length; i++) {
+                                var spielid = basket[i].spielId;
+                                var leihdauer = basket[i].leihdauer;
+                                var gekauft = 0;
+                                if (leihdauer === 0) {
+                                    gekauft = 1;
+                                }
+
+                                bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
+                            }
+
+                            console.log(typeof bestellpositionen[2].gekauft);
+                            date = new Date(Date.now()).toLocaleString();
+                            var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
+                            console.log(JSON.stringify(daten));
+                                $.ajax({
+                                    url: "http://localhost:8000/api/bestellung",
+                                    method: "post",
+                                    contentType: "application/json",
+                                    data: JSON.stringify(daten)
+                                    })
+                                    .done(function (response) { 
+                                        console.log("Bestellung erstellt mit der Nummer:  " + response.daten.id);
+                                        window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
+                                        localStorage.removeItem("basket");
+
+                                    })
+                                    .fail(function (jqXHR, statusText, error) {
+                                        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                                        });
+                        })
                         .fail(function (jqXHR, statusText, error) {
                         console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
                         });
-                    }
+
+                }
+                else {
+                    var PersonId = erg.existiert;
+                    console.log("Person existiert: id:" + PersonId)
+                    if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
+                            zahlId =2;
+                        }
+                        else if ($("SELECT#zahlart").find(":selected").text() === "PayPal") {
+                            zahlId =1;
+                        }
+                        else {
+                            alert("Zahlart auswählen!");
+                        }
+                        var basket = JSON.parse(localStorage.getItem("basket"));
+                        var bestellpositionen = [];
+                        console.log(basket.length);
+                        for (var i=0; i < basket.length; i++) {
+                            var spielid = basket[i].spielId;
+                            var leihdauer = basket[i].leihdauer;
+                            var gekauft = 0;
+                            if (leihdauer === 0) {
+                                gekauft = 1;
+                            }
+
+                            bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
+                        }
+
+                        console.log(typeof bestellpositionen[2].gekauft);
+                        date = new Date(Date.now()).toLocaleString();
+                        var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
+                        console.log(JSON.stringify(daten));
+                            $.ajax({
+                                url: "http://localhost:8000/api/bestellung",
+                                method: "post",
+                                contentType: "application/json",
+                                data: JSON.stringify(daten)
+                                })
+                                .done(function (response) { 
+                                    console.log("Bestellung erstellt: " + response.daten);
+                                    
+                                    window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
+                                    localStorage.removeItem("basket");
+                                })
+                                .fail(function (jqXHR, statusText, error) {
+                                    console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                                });
+                        }
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);
             alert("Es ist ein Fehler aufgetreten");
-            })
             });
+    })
 </script>
 </html>
