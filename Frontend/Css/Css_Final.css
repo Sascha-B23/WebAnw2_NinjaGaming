@@ -994,7 +994,7 @@ h3 {
  
 
 /* Textfelder von Kasse */
-input[id=fname], select, textarea {
+/* input[id=fname], select, textarea {
   width: 104%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -1006,8 +1006,20 @@ input[id=fname], select, textarea {
   font-family: Arial, Helvetica, sans-serif;
   margin-left: -2%;
 
-}
+} */
 
+.inputKlasse{
+  width: 104%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: -2%;
+}
  
 
 .zahlbutton{
