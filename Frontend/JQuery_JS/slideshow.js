@@ -28,4 +28,3 @@ function showSlides(n) {
 function bestellbestätigungDrucken() {
   window.print()
 }
-

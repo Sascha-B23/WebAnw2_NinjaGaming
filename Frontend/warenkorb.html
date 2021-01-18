@@ -7,128 +7,105 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="JQuery_JS/urlParameter.js"></script>
 <script src="JQuery_JS/sessionHandling.js"></script>
+<script src="JQuery_JS/Sortierung.js"></script>
+<script src="JQuery_JS/Script.js"></script>
+<script src="JQuery_JS/urlParameter.js"></script>
 </head>
-
 <body>
-    <header>
-        <h1>Ninja-Gaming
-            <br>Dein Shop fürs Ausleihen und Kaufen von Games
-        </h1>
-        <img id ="titelbild" src="Bilder/Ninja.png" alt="Ninja">
-    </header>
+    <header></header>
 
-    <div id="nav">
-		<a href="index.html"> Startseite</a>
-		<a href="spielauswahl.html?spielplattformId=2"> PC</a>
-		<a href="spielauswahl.html?spielplattformId=1"> PS4</a>
-		<a href="spielauswahl.html?spielplattformId=3"> XBOX</a>
-		<a href="impressum.html"> Impressum</a>
-		<a href="kontakt.html">Kontakt</a>
-    </div>
+    <div id="nav"></div>
     <h1 id="warenkorb_h1">Warenkorb</h1>
-    <div id="test" class="warenkorb_main">
-<!--    <div class="warenkorb_spiel">
-            <a href="kaufseite.html"><img class="warenkorb_spielanzeige" src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel"/></a>
-            
-            <div class="warenkorb_spielbeschreibung">
-                <h4>The Elder Scrolls Online - Greymoor [Standard Edition]</h4>
-                <h5>Plattform: PS4</h5>
-                <h5>Erscheinungsjahr: 2020</h5>    
-            </div>
-            <div class="warenkorb_kaufart">
-                <h4>Kaufpreis UVP</h4>  
-            </div>
-
-            <div class="warenkorb_preis">
-                <h4>59,99€</h4>
-            </div>
-            
-            <div class="warenkorb_rechterContainer">
-
-                <button class="warenkorb_entfernen">
-                    entfernen
-                </button>
-                
-            </div>
+    <div id="test" class="warenkorb_main"><!--    <div class="warenkorb_spiel">
+        <a href="kaufseite.html"><img class="warenkorb_spielanzeige" src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel"/></a>
+        
+        <div class="warenkorb_spielbeschreibung">
+            <h4>The Elder Scrolls Online - Greymoor [Standard Edition]</h4>
+            <h5>Plattform: PS4</h5>
+            <h5>Erscheinungsjahr: 2020</h5>    
         </div>
-        <div class="warenkorb_spiel">
-            <a href="kaufseite.html"><img class="warenkorb_spielanzeige" src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel"/></a>
-            
-            <div class="warenkorb_spielbeschreibung">
-                <h4>The Elder Scrolls Online - Greymoor [Standard Edition]</h4>
-                <h5>Plattform: PS4</h5>
-                <h5>Erscheinungsjahr: 2020</h5>    
-            </div>
-            <div class="warenkorb_kaufart">
-                <h4>Geliehen für:</h4>  
-                <select class="dropdown_warenkorb">
-                    <option>1 Tag</option>
-                    <option>2 Tage</option>
-                    <option>3 Tage</option>
-                    <option>4 Tage</option>
-                    <option selected>5 Tage</option>
-                    <option>7 Tage / 1 Woche</option>
-                    <option>14 Tage / 2 Wochen</option>
-                </select> 
-            </div>
+        <div class="warenkorb_kaufart">
+            <h4>Kaufpreis UVP</h4>  
+        </div>
 
-            <div class="warenkorb_preis">
-                <h4>25,00€</h4>
-            </div>
-            
-            <div class="warenkorb_rechterContainer">
+        <div class="warenkorb_preis">
+            <h4>59,99€</h4>
+        </div>
+        
+        <div class="warenkorb_rechterContainer">
 
-                <button class="warenkorb_entfernen">
-                    entfernen
-                </button>
-                
-            </div>
+            <button class="warenkorb_entfernen">
+                entfernen
+            </button>
             
         </div>
-        <div class="gesamtpreis_warenkorb">
-            <hr>
-            <div class="gesamtpreis_warenkorb_links">
-                <h4>Enth. MwSt.</h4>
-                <h3>Gesamtsumme</h3>
-            </div>
-            <div class="gesamtpreis_warenkorb_rechts">
-                <h4>xx,xx€</h4>
-                <h3>xx,xx€</h3>
-            </div>
-        </div> -->
-
-
     </div>
+    <div class="warenkorb_spiel">
+        <a href="kaufseite.html"><img class="warenkorb_spielanzeige" src="Bilder/The Elder Scrolls Online - Greymoor [Standard Edition].jpg" alt="Spiel"/></a>
+        
+        <div class="warenkorb_spielbeschreibung">
+            <h4>The Elder Scrolls Online - Greymoor [Standard Edition]</h4>
+            <h5>Plattform: PS4</h5>
+            <h5>Erscheinungsjahr: 2020</h5>    
+        </div>
+        <div class="warenkorb_kaufart">
+            <h4>Geliehen für:</h4>  
+            <select class="dropdown_warenkorb">
+                <option>1 Tag</option>
+                <option>2 Tage</option>
+                <option>3 Tage</option>
+                <option>4 Tage</option>
+                <option selected>5 Tage</option>
+                <option>7 Tage / 1 Woche</option>
+                <option>14 Tage / 2 Wochen</option>
+            </select> 
+        </div>
+
+        <div class="warenkorb_preis">
+            <h4>25,00€</h4>
+        </div>
+        
+        <div class="warenkorb_rechterContainer">
+
+            <button class="warenkorb_entfernen">
+                entfernen
+            </button>
+            
+        </div>
+        
+    </div>
+    <div class="gesamtpreis_warenkorb">
+        <hr>
+        <div class="gesamtpreis_warenkorb_links">
+            <h4>Enth. MwSt.</h4>
+            <h3>Gesamtsumme</h3>
+        </div>
+        <div class="gesamtpreis_warenkorb_rechts">
+            <h4>xx,xx€</h4>
+            <h3>xx,xx€</h3>
+        </div>
+    </div> --></div>
     <div class="zur_kasse">
-        <a href="kasse.html"><button>Zur Kasse</button></a>
+    <a href="kasse.html"><button>Zur Kasse</button></a>
     </div>
 
-    <footer>
-        <div class="Footer_links">
-            <a href="impressum.html">Impressum</a> <br><br>
-            <a href="kontakt.html">Kontakt</a> <br><br>
-            <a href="support.html">Support</a>
-        </div>
-        <div class="Footer_mitte">
-            <p>Zahlungsarten:</p> <br>
-            <img src="Bilder/Paypal-logo.jpg" alt="Paypal" >
-            <img src="Bilder/Barzahlung_logo.png" alt="Barzahlung" >
-        </div>
- 
-        <div class="Footer_rechts">
-            <p>Soziale Netzwerke:</p>
-            <a href="https://de-de.facebook.com/"><img src="Bilder/Facebook_logo.png" alt="Facebook"></a>
-            <a href="https://twitter.com/?lang=de"><img src="Bilder/Twitter_logo.png" alt="Twitter"></a>
-            <a href="https://www.instagram.com/"><img src="Bilder/Instagram_logo.jpg" alt="Facebook"></a>
-        </div>
-    </footer>
+    <footer></footer>
+
+
     <script>
+        //Erstellung Header
+        createHeader();
+        // Erstellung des Navs
+        createNav();
+        // Erstellung des Footers
+        createFooter();
+
         function showBasket() {
               // aktuelle warenkorbdaten in konsole anzeigen lassen
               console.log(basket);
               if (basket.length == 0) {
               // warenkorb_leer noch in css anlegen
-                //  $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
+                    $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
               }
               else {
                   //hier dynamischen Code eintragen 
@@ -157,6 +134,7 @@
                                 .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))));
                         }
                         // GANZER WRENKORB LEEREN: removeSessionItem('basket')
+
                         
                     }
                     $('DIV.zur_kasse').append($('<button>').attr("onclick", "removeSessionItem('basket')").text("Kompletten Einkaufskorb leeren"));
@@ -198,7 +176,10 @@
                     for (i = 0; i < basket.length; i++) {
                         if (basket[i].spielId === spiel.id) {
                         idx = i;
-                        alert("Artikel schon im Warenkorb!")
+                        alert("Artikel schon im Warenkorb! Sie können jedes Spiel" +
+                        " nur einmal erweben! Entfernen Sie gegebenenfalls den Artikel und " +
+                        "fügen sie ihn wieder hinzu, falls sie sich für eine andere Leihdauer " +
+                        "entschieden haben.")
                         break;
                         }
                     }

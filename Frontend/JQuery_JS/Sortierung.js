@@ -1,3 +1,25 @@
+
+function toKomma(val) {
+    var n = val.toString();
+    if (n.length === 2) {
+        return n + ",00";
+    }
+    else if (n.length === 1) {
+        return "0" + n + ",00";
+    }
+    else if (n.length === 0) {
+        return "fehler";
+    }
+    else {
+        var splits = n.split(".");
+        if (splits[1].length === 1) {
+            splits[1] += "0";
+        }
+        var nummer = splits[0] + ","  + splits[1];
+        return nummer;
+    }
+}
+
 function createGamesView(list) {
     content = '';
     for (var i=0; i < list.length; i++) {
@@ -195,10 +217,3 @@ function sortGames() {
             })
     }
   }
-
-function toKomma(val) {
-    var n = val.toString();
-    var splits = n.split(".");
-    var nummer = splits[0] + ","  + splits[1];
-    return nummer;
-}

@@ -71,27 +71,21 @@ function isNullOrUndefined(val) {
     return val === null || val === undefined;
 }
 
-function toKomma(val) {
-    var n = val.toString();
-    var splits = n.split(".");
-    var nummer = splits[0] + ","  + splits[1];
-    return nummer;
-}
-
-function removeItem(val,pos) {
-    val = val.filter(function(item) {
-        return item !== pos
-    })
-
-    return val;
-}
-
 function refreshPage() {
     window.location = window.location.href.split("?")[0];
 }
 
 function removeElement(pos) {
-    basket.splice(pos,1);
-    setJSONSessionItem('basket', basket);
-    refreshPage();
+    // Wenn letztes Element aus dem Warenkorb gelöscht wird, soll der komplette Basket verschwinden
+    if (basket.length === 1) {
+        removeSessionItem('basket');
+        refreshPage();
+    }
+    // Sonst nimmt man den Basket, entfernt die jeweilige Position und fügt den neuen, gekürzten Basket
+    // der Session hinzu (neues SessionItem)
+    else {
+        basket.splice(pos,1);
+        setJSONSessionItem('basket', basket);
+        refreshPage();
+    }
 }
