@@ -71,14 +71,6 @@ function isNullOrUndefined(val) {
     return val === null || val === undefined;
 }
 
-function toKomma(val) {
-    var n = val.toString();
-    var splits = n.split(".");
-    var nummer = splits[0] + ","  + splits[1];
-    return nummer;
-}
-
-
 function refreshPage() {
     window.location = window.location.href.split("?")[0];
 }
