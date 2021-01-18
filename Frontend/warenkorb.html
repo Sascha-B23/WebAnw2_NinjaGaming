@@ -85,6 +85,7 @@
             <h3>xx,xx€</h3>
         </div>
     </div> --></div>
+    <!-- <div class="warenkorb_leeren_div"></div> -->
     <div class="zur_kasse">
     <a href="kasse.html"><button>Zur Kasse</button></a>
     </div>
@@ -111,7 +112,9 @@
                   //hier dynamischen Code eintragen 
                   //angezeigt werden muss: Spielbild, Spielname, Plattform, Erscheinungsjahr, Gekauft/Leihdauer,
                   // Preis und entfernen Button
-                  //ganz unten noch enth. MwSt. und Gesamtsumme  
+                  //ganz unten noch enth. MwSt. und Gesamtsumme
+                    var gesamtnetto = 0.0;
+                    var gesamtbrutto = 0.0;  
                     for (var i=0; i < basket.length; i++) {
                         if (basket[i].leihdauer == 0) {
                             $('DIV.warenkorb_main').append(
@@ -122,6 +125,8 @@
                                 .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP')))
                                 .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(basket[i].bruttokaufpreis) + '€')))
                                 .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))))
+                            gesamtbrutto += basket[i].bruttokaufpreis;
+                            gesamtnetto += basket[i].kaufpreis;
                         }
                         else if (basket[i].leihdauer > 0) {
                             $('DIV.warenkorb_main').append(
@@ -132,20 +137,28 @@
                                 .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + basket[i].leihdauer + ' Tage')))
                                 .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma((basket[i].bruttoleihpreis * basket[i].leihdauer).toFixed(2)) + '€')))
                                 .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button>').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))));
+                            gesamtbrutto += (basket[i].bruttoleihpreis * basket[i].leihdauer);
+                            gesamtnetto += (basket[i].leihpreis * basket[i].leihdauer);
                         }
-                        // GANZER WRENKORB LEEREN: removeSessionItem('basket')
-
                         
                     }
-                    $('DIV.zur_kasse').append($('<button>').attr("onclick", "removeSessionItem('basket')").text("Kompletten Einkaufskorb leeren"));
-
+                    //Gesamtsumme:
+                    $('DIV.warenkorb_main').append(
+                        $('<div>')
+                            .addClass('gesamtpreis_warenkorb')
+                            .append($('<hr>'))
+                            .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
+                            .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(toKomma((gesamtbrutto - gesamtnetto).toFixed(2)) + '€').append($('<h3>').text(toKomma(gesamtbrutto.toFixed(2)) + '€'))))
+                    );
+                    //Button für gesamten Warenkorb leeren
+                    $('DIV.warenkorb_main').append($('<button>').addClass('warenkorb_leeren').attr("onclick", "removeSessionItem('basket')").text("Kompletten Warenkorb leeren"));
               }
 
           }
   </script>
 <script>
-// WARENKORB WIRD NOCH GEÄNDERT (SO WIE IN DER PRAKTIKUMSSTUNDE GEZEIGT MIT SESSION ID USW)
-        // initialisierung (globale variable)
+
+    // initialisierung (globale variable)
     var basket = [];
         $(document).ready(function() {
             // schauen ob in der session bereits ein warenkorb existiert, falls ja diesen holen
