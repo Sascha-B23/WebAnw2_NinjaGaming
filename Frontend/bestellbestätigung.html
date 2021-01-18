@@ -94,37 +94,33 @@ createNav();
 createFooter();
 $(document).ready(function() {
     $.ajax({
-        url: 'http://localhost:8000/api/bestellung/alle',
+        url: 'http://localhost:8000/api/bestellung/gib/' + getUrlParameterValue('bestellId'),
         method: 'GET',
         dataType: 'json'
     })
     .done(function(httpResponse) {
-        var list = httpResponse.daten
-        var b = 0; //Bestellung die aus der Datenbank gelesen wird (noch ändern)
+        var spiel = httpResponse.daten
         for (i = 0; i < 1; i++ ){
             $('DIV.warenkorb_main').append(
-                    
                 $('<p>').addClass('bestellbestätigung_text')
-                    .text('Ihre Artikel sind in kürze abholbereit. Sie werden über den genauen Zeitpunkt über ihre E-mail: ' + list[b].besteller.email +  ' kontaktiert.')
-                    .append($('<p>').text('Name: ' + list[b].besteller.vorname + ' ' + list[b].besteller.nachname))
-                    .append($('<p>').text('Bestellnummer: ' + list[b].id))
-                    .append($('<p>').text('Bestellzeitpunkt: ' + list[b].bestellzeitpunkt))
+                    .text('Ihre Artikel sind in kürze abholbereit. Sie werden über den genauen Zeitpunkt über ihre E-mail: ' + spiel.besteller.email +  ' kontaktiert.')
+                    .append($('<p>').text('Name: ' + spiel.besteller.vorname + ' ' + spiel.besteller.nachname))
+                    .append($('<p>').text('Bestellnummer: ' + spiel.id))
+                    .append($('<p>').text('Bestellzeitpunkt: ' + spiel.bestellzeitpunkt))
             );
-                
-            for (i = 0; i < list[b].bestellpositionen.length; i++){
+            for (i = 0; i < spiel.bestellpositionen.length; i++){
                 $('DIV.warenkorb_main').append(
                     $('<div>').addClass('bestellbestätigung_spiel')
-                
-                        .append($('<a>').attr('href','kaufseite.html?spielId='+list[b].bestellpositionen[i].spiel.id).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', list[b].bestellpositionen[i].spiel.bilder[0].bildpfad)))
-                        .append($('<div>').addClass('bestellbestätigung_spielbeschreibung').append($('<h4>').text(list[b].bestellpositionen[i].spiel.spielname)).append($('<h5>').text('Plattform: ' + list[b].bestellpositionen[i].spiel.spielplattform.name)).append($('<h5>').text('Erscheinungsjahr: ' + list[b].bestellpositionen[i].spiel.erscheinungsjahr)))
+                        .append($('<a>').attr('href','kaufseite.html?spielId='+ spiel.bestellpositionen[i].spiel.id).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', spiel.bestellpositionen[i].spiel.bilder[0].bildpfad)))
+                        .append($('<div>').addClass('bestellbestätigung_spielbeschreibung').append($('<h4>').text(spiel.bestellpositionen[i].spiel.spielname)).append($('<h5>').text('Plattform: ' + spiel.bestellpositionen[i].spiel.spielplattform.name)).append($('<h5>').text('Erscheinungsjahr: ' + spiel.bestellpositionen[i].spiel.erscheinungsjahr)))
                         .append(function(){
-                            if (list[b].bestellpositionen[i].gekauft == 0){ //0 heißt das Spiel wird geliehen
-                                return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ').append($('<h4>').text(list[b].bestellpositionen[i].leihzeit + ' Tage')))  //+ list[b].bestellpositionen[i].leihzeit + ' Tage'))
-                            }else if (list[b].bestellpositionen[i].gekauft == 1){ //1 heißt das Spiel wird gekauft
+                            if (spiel.bestellpositionen[i].gekauft == 0){ //0 heißt das Spiel wird geliehen
+                                return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ').append($('<h4>').text(spiel.bestellpositionen[i].leihzeit + ' Tage')))  
+                            }else if (spiel.bestellpositionen[i].gekauft == 1){ //1 heißt das Spiel wird gekauft
                                 return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP'))
                             }
                         })
-                        .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(list[b].bestellpositionen[i].bruttopreis + '€')))
+                        .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(spiel.bestellpositionen[i].bruttopreis.toFixed(2)) + '€')))
                 );
             }
             $('DIV.warenkorb_main').append(
@@ -132,7 +128,7 @@ $(document).ready(function() {
                     .addClass('gesamtpreis_bestellbestätigung')
                     .append($('<hr>'))
                     .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
-                    .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(list[b].total.mehrwertsteuer + '€').append($('<h3>').text(list[b].total.brutto + '€'))))
+                    .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(toKomma(spiel.total.mehrwertsteuer.toFixed(2)) + '€').append($('<h3>').text(toKomma(spiel.total.brutto.toFixed(2)) + '€'))))
             );
         }
             
@@ -142,5 +138,57 @@ $(document).ready(function() {
         alert("Es ist ein Fehler aufgetreten");
     })   
 });
+
+
+// $(document).ready(function() {
+//     $.ajax({
+//         url: 'http://localhost:8000/api/bestellung/alle',
+//         method: 'GET',
+//         dataType: 'json'
+//     })
+//     .done(function(httpResponse) {
+//         var list = httpResponse.daten
+//         var b = getUrlParameterValue('bestellId'); //Bestellung die aus der Datenbank gelesen wird (noch ändern)
+//         for (i = 0; i < 1; i++ ){
+//             $('DIV.warenkorb_main').append(
+                    
+//                 $('<p>').addClass('bestellbestätigung_text')
+//                     .text('Ihre Artikel sind in kürze abholbereit. Sie werden über den genauen Zeitpunkt über ihre E-mail: ' + list[b].besteller.email +  ' kontaktiert.')
+//                     .append($('<p>').text('Name: ' + list[b].besteller.vorname + ' ' + list[b].besteller.nachname))
+//                     .append($('<p>').text('Bestellnummer: ' + list[b].id))
+//                     .append($('<p>').text('Bestellzeitpunkt: ' + list[b].bestellzeitpunkt))
+//             );
+                
+//             for (i = 0; i < list[b].bestellpositionen.length; i++){
+//                 $('DIV.warenkorb_main').append(
+//                     $('<div>').addClass('bestellbestätigung_spiel')
+                
+//                         .append($('<a>').attr('href','kaufseite.html?spielId='+list[b].bestellpositionen[i].spiel.id).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', list[b].bestellpositionen[i].spiel.bilder[0].bildpfad)))
+//                         .append($('<div>').addClass('bestellbestätigung_spielbeschreibung').append($('<h4>').text(list[b].bestellpositionen[i].spiel.spielname)).append($('<h5>').text('Plattform: ' + list[b].bestellpositionen[i].spiel.spielplattform.name)).append($('<h5>').text('Erscheinungsjahr: ' + list[b].bestellpositionen[i].spiel.erscheinungsjahr)))
+//                         .append(function(){
+//                             if (list[b].bestellpositionen[i].gekauft == 0){ //0 heißt das Spiel wird geliehen
+//                                 return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ').append($('<h4>').text(list[b].bestellpositionen[i].leihzeit + ' Tage')))  //+ list[b].bestellpositionen[i].leihzeit + ' Tage'))
+//                             }else if (list[b].bestellpositionen[i].gekauft == 1){ //1 heißt das Spiel wird gekauft
+//                                 return $('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP'))
+//                             }
+//                         })
+//                         .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(list[b].bestellpositionen[i].bruttopreis + '€')))
+//                 );
+//             }
+//             $('DIV.warenkorb_main').append(
+//                 $('<div>')
+//                     .addClass('gesamtpreis_bestellbestätigung')
+//                     .append($('<hr>'))
+//                     .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
+//                     .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(list[b].total.mehrwertsteuer + '€').append($('<h3>').text(list[b].total.brutto + '€'))))
+//             );
+//         }
+            
+//     })
+//     .fail(function(jqXHR, statusText, error) {
+//         console.log(statusText);
+//         alert("Es ist ein Fehler aufgetreten");
+//     })   
+// });
 </script>
 </html>
