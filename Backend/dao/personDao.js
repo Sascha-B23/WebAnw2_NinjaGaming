@@ -80,10 +80,22 @@ class PersonDao {
         return false;
     }
 
+    exists(vorname = "", nachname = "", mobilnummer = "", email = "") {
+        var sql = "SELECT COUNT(ID) AS cnt FROM Person WHERE VORNAME=? AND NACHNAME=? AND MOBILNUMMER=? AND EMAIL=?";
+        var statement = this._conn.prepare(sql);
+        var params = [vorname, nachname, mobilnummer, email];
+        var result = statement.get(params);
+
+        if (result.cnt == 1) 
+            return true;
+
+        return false;
+    }
+
     create(vorname = "", nachname = "", mobilnummer = "", email = "") {
         var sql = "INSERT INTO Person (Vorname,Nachname,Mobilnummer,Email) VALUES (?,?,?,?)";
         var statement = this._conn.prepare(sql);
-        var params = [vorname, nachname, adresseid, telefonnummer, email];
+        var params = [vorname, nachname, mobilnummer, email];
         var result = statement.run(params);
 
         if (result.changes != 1) 

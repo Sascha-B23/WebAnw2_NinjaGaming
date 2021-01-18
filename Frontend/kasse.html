@@ -38,7 +38,7 @@
    
                 <div class="kasten_container"> 
                     <div class="select-box"> <br> <br>
-                        <select>
+                        <select class ="inputKlasse">
                             <option disabled selected>Zahlungsart auswählen</option>
                             <option>PayPal</option>
                             <option>Barzahlung</option>
@@ -48,14 +48,14 @@
     
              <br><br> <div class="container1"> <br><br><br> 
                 
-                <input type="text" id="fname" name="firstname" placeholder="Vorname">
-                <input type="text" id="fname" name="lastname" placeholder="Nachname">
-                <input type="text" id="fname" name="firstname" placeholder="Email">
-                    <input type="text" id="fname" name="firstname" placeholder="Mobilnummer">           
+                <input type="text" class ="inputKlasse" id="fname" name="firstname" placeholder="Vorname">
+                <input type="text" class ="inputKlasse" id="nname" name="lastname" placeholder="Nachname">
+                <input type="text" class ="inputKlasse" id="email" name="email" placeholder="Email">
+                    <input type="number" class ="inputKlasse" id="mobilnummer" name="mobilnummer" placeholder="Mobilnummer">           
 
             
                     <div class="zahlbutton">
-           <br>  <a href="bestellbestätigung.html" ><button class="ZumSpiel">
+           <br>  <a ><button class="ZumSpiel" id="zumSpiel">
                         Bezahlen
                         </button></a>
                     </div>
@@ -80,5 +80,49 @@
     createNav();
     // Erstellung des Footers
     createFooter();
+
+    // onclick="bestellErstellung()"
+
+    $("#zumSpiel").click(function() { 
+        console.log("button zumSpiel clicked");
+        const vorname = document.getElementById("fname").value;
+        const nachname = document.getElementById("nname").value;
+        const mobilnummer = document.getElementById("mobilnummer").value;
+        const email = document.getElementById("email").value;
+
+        var obj = { "vorname": vorname, "nachname": nachname, "mobilnummer" : mobilnummer, "email" : email };
+
+        console.log(obj);
+        console.log(JSON.stringify(obj));
+		$.ajax({
+            url: "http://localhost:8000/api/person/existiert/" + vorname + "/" + nachname + "/" + mobilnummer + "/" + email,
+            method: "get",
+            dataType: "json"
+            })
+            .done(function(httpResponse) {
+                var erg = httpResponse.daten;
+                if (erg.existiert) {
+                    alert("User existiert schon.");
+                }
+                else {
+                    $.ajax({
+                        url: "http://localhost:8000/api/person",
+                        method: "post",
+				        contentType: "application/json",
+				        data: JSON.stringify(obj)
+                        })
+                        .done(function (response) {
+                            console.log(response);
+                            })
+                        .fail(function (jqXHR, statusText, error) {
+                        console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                        });
+                    }
+            })
+            .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+            })
+            });
 </script>
 </html>
