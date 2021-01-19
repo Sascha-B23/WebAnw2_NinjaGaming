@@ -79,13 +79,14 @@ function removeElement(pos) {
     // Wenn letztes Element aus dem Warenkorb gelöscht wird, soll der komplette Basket verschwinden
     if (basket.length === 1) {
         removeSessionItem('basket');
-        refreshPage();
     }
     // Sonst nimmt man den Basket, entfernt die jeweilige Position und fügt den neuen, gekürzten Basket
     // der Session hinzu (neues SessionItem)
     else {
         basket.splice(pos,1);
         setJSONSessionItem('basket', basket);
-        refreshPage();
+        var button = document.getElementById(pos);
+        const container = button.parentNode.parentNode;
+        container.remove();
     }
 }
