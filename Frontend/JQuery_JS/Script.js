@@ -41,19 +41,61 @@ function createPerson(obj) {
 
 }
 
-// function existsPerson(vorname,nachname,mobilnummer,email) {
-//   $.ajax({
-//     url: "http://localhost:8000/api/person/existiert/" + vorname + "/" + nachname + "/" + mobilnummer + "/" + email,
-//     method: "get",
-//     dataType: "json"
-//     })
-//     .done(function(httpResponse) {
-//         var erg = httpResponse.daten;
-//         console.log(erg.existiert);
-//         return httpResponse.daten.existiert;
-//     })
-//     .fail(function(jqXHR, statusText, error) {
-//     console.log(statusText);
-//     alert("Es ist ein Fehler aufgetreten");
-//     });
-// }
+// Ab hier ursüprünglich in sessionHandling.js gearbeitet
+
+// refresh current page without any url-parameters
+function refreshPage() {
+  window.location = window.location.href.split("?")[0];
+  console.log("Seite wurde neu ohne vorherige URL-Parameter geladen.")
+}
+
+function getBruttoSumfromBasket() {
+  var bruttoSum = 0.0;
+  for (var i=0; i< basket.length; i++) {
+      if (basket[i].leihdauer === 0) {
+          bruttoSum += basket[i].bruttokaufpreis;
+      }
+      else {
+          bruttoSum += (basket[i].bruttoleihpreis * basket[i].leihdauer);
+      }
+  }
+  console.log(bruttoSum);
+  return bruttoSum;
+}
+
+function getNettoSumfromBasket() {
+  var nettoSum = 0.0;
+  for (var i=0; i< basket.length; i++) {
+      if (basket[i].leihdauer === 0) {
+          nettoSum += basket[i].kaufpreis;
+      }
+      else {
+          nettoSum += (basket[i].leihpreis * basket[i].leihdauer);
+      }
+  }
+  return nettoSum;
+}
+
+// remove an element from the basket-object in current session respectively localStorage
+function removeElementfromBasket(pos) {
+  // destroys the whole basket-object in the localStorage because it´s the last element in the basket
+  if (basket.length === 1) {
+      removeSessionItem('basket');
+  }
+  // otherwise take the basket-object, pop the given element and daklare the popped basket as new basket
+  else {
+      basket.splice(pos,1);
+      setJSONSessionItem('basket', basket);
+
+      // grab the button which was pressed to delete the element and remove the container of the element (by getting the parentNodes of the button)
+      var button = document.getElementById(pos);
+      const container = button.parentNode.parentNode;
+      container.remove();
+
+      // change the Sum/Price of the basket
+      $("H4#nettopreis").text(toKomma((getBruttoSumfromBasket() - getNettoSumfromBasket()).toFixed(2)) + "€").append($('<h3 id="bruttopreis">').text(toKomma(getBruttoSumfromBasket().toFixed(2)) + '€'));
+      
+      console.log("Basket wurde um das gelöschte Spiel geschmälert, der Spielecontainer des Spiels wurde zertört: Basket=" + getSessionItem('basket'));
+
+  }
+}

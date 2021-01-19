@@ -148,7 +148,7 @@
                             .addClass('gesamtpreis_warenkorb')
                             .append($('<hr>'))
                             .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
-                            .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4>').text(toKomma((gesamtbrutto - gesamtnetto).toFixed(2)) + '€').append($('<h3>').text(toKomma(gesamtbrutto.toFixed(2)) + '€'))))
+                            .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4 id="nettopreis">').text(toKomma((gesamtbrutto - gesamtnetto).toFixed(2)) + '€').append($('<h3 id="bruttopreis">').text(toKomma(gesamtbrutto.toFixed(2)) + '€'))))
                     );
                     //Button für gesamten Warenkorb leeren
                     $('DIV.warenkorb_main').append($('<button>').addClass('warenkorb_leeren').attr("onclick", "removeSessionItem('basket')").text("Kompletten Warenkorb leeren"));
