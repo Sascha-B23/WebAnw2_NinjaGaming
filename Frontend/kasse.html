@@ -108,7 +108,7 @@
                         })
                         .done(function (response) {
                             var PersonId = response.daten.id;
-                            console.log(response.daten.id);
+                            console.log("Person-ID:" + response.daten.id);
                             var zahlId;
                             if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
                                 zahlId =2;
@@ -120,20 +120,7 @@
                                 alert("Zahlart auswählen!");
                             }
                             var basket = JSON.parse(localStorage.getItem("basket"));
-
-                            // var basket = localStorage.getItem("basket");
-                            // var splits = basket.split(",");
-                            // for (var i=0; i < splits.length; i++) {
-                            //     split[0].slice(-1) 
-                            //      if (Number.isInteger(i/11)) {
-
-                            //      }
-                            //      if (Number.isInteger(i/5)) {
-
-                            //      }
-                            //  }
                             var bestellpositionen = [];
-                            console.log(basket.length);
                             for (var i=0; i < basket.length; i++) {
                                 var spielid = basket[i].spielId;
                                 var leihdauer = basket[i].leihdauer;
@@ -145,10 +132,9 @@
                                 bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
                             }
 
-                            console.log(typeof bestellpositionen[2].gekauft);
                             date = new Date(Date.now()).toLocaleString();
                             var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
-                            console.log(JSON.stringify(daten));
+                            console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
                                 $.ajax({
                                     url: "http://localhost:8000/api/bestellung",
                                     method: "post",
@@ -173,7 +159,8 @@
                 else {
                     var PersonId = erg.existiert;
                     console.log("Person existiert: id:" + PersonId)
-                    if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
+                    var zahlId;
+                        if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
                             zahlId =2;
                         }
                         else if ($("SELECT#zahlart").find(":selected").text() === "PayPal") {
@@ -182,9 +169,9 @@
                         else {
                             alert("Zahlart auswählen!");
                         }
+                        console.log("ZahlID: " + zahlId);
                         var basket = JSON.parse(localStorage.getItem("basket"));
                         var bestellpositionen = [];
-                        console.log(basket.length);
                         for (var i=0; i < basket.length; i++) {
                             var spielid = basket[i].spielId;
                             var leihdauer = basket[i].leihdauer;
@@ -195,11 +182,10 @@
 
                             bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
                         }
-
-                        console.log(typeof bestellpositionen[2].gekauft);
                         date = new Date(Date.now()).toLocaleString();
+            
                         var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
-                        console.log(JSON.stringify(daten));
+                        console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
                             $.ajax({
                                 url: "http://localhost:8000/api/bestellung",
                                 method: "post",
@@ -207,8 +193,7 @@
                                 data: JSON.stringify(daten)
                                 })
                                 .done(function (response) { 
-                                    console.log("Bestellung erstellt: " + response.daten);
-                                    
+                                    console.log("Bestellung erstellt mit der Nummer:  " + response.daten.id);
                                     window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
                                     localStorage.removeItem("basket");
                                 })
