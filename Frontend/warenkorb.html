@@ -87,7 +87,7 @@
     </div> --></div>
     <!-- <div class="warenkorb_leeren_div"></div> -->
     <div class="zur_kasse">
-    <a href="kasse.html"><button>Zur Kasse</button></a>
+    <a href="kasse.html"><button id="WarenkorbzurKasse">Zur Kasse</button></a>
     </div>
 
     <footer></footer>
@@ -124,7 +124,7 @@
                                 .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
                                 .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP')))
                                 .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(basket[i].bruttokaufpreis) + '€')))
-                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))))
+                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))))
                             gesamtbrutto += basket[i].bruttokaufpreis;
                             gesamtnetto += basket[i].kaufpreis;
                         }
@@ -136,7 +136,7 @@
                                 .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
                                 .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + basket[i].leihdauer + ' Tage')))
                                 .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma((basket[i].bruttoleihpreis * basket[i].leihdauer).toFixed(2)) + '€')))
-                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElement('" + i + "')").text('entfernen'))));
+                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))));
                             gesamtbrutto += (basket[i].bruttoleihpreis * basket[i].leihdauer);
                             gesamtnetto += (basket[i].leihpreis * basket[i].leihdauer);
                         }
@@ -215,7 +215,7 @@
                         basket.push(bestellposition);
                         console.log(basket.length);
                         setJSONSessionItem('basket', basket);
-                        refreshPage();
+                        refreshPage(); // seite wird ohne URL-Paremeter neu geladen, es erfolgt kein Ajax-call es wird nur das neue SessionItem ausgelesen sprich der neue Basket
                     }
                 })
 
@@ -272,7 +272,11 @@
     </script>
 <script>
     $(document).ready(function() {
-        showBasket(); })
+        showBasket(); 
+        if (localStorage.getItem("basket") == null) {
+            $("BUTTON#WarenkorbzurKasse").attr("disabled", "disabled");
+        }
+        })
 </script>
 </body>
 </html>
