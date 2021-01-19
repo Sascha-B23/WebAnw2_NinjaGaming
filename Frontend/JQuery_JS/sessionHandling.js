@@ -41,8 +41,13 @@ function getJSONSessionItem(label) {
 // removes a session item by label
 function removeSessionItem(label) {
     localStorage.removeItem(label);
-    refreshPage();
-    console.log(basket);
+    if (label == "basket") {
+        $("DIV.warenkorb_spiel").remove();
+        $("DIV.gesamtpreis_warenkorb").remove();
+        $("BUTTON.warenkorb_leeren").remove();
+        $("BUTTON#WarenkorbzurKasse").attr("disabled", "disabled");
+        console.log(basket);
+    }
 }
 
 // clears complete session / deletes all session items

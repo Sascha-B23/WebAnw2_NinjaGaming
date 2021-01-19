@@ -625,7 +625,15 @@ footer{
   color: #2c3e50;
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
-} /*Warenkorb ende
+} 
+.zur_kasse button:disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+} 
+
+
+
+/*Warenkorb ende
  
 /*Bestellbestätigung*/
 #bestellbestätigung_h1 {

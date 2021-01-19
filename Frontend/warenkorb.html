@@ -87,7 +87,7 @@
     </div> --></div>
     <!-- <div class="warenkorb_leeren_div"></div> -->
     <div class="zur_kasse">
-    <a href="kasse.html"><button>Zur Kasse</button></a>
+    <a href="kasse.html"><button id="WarenkorbzurKasse">Zur Kasse</button></a>
     </div>
 
     <footer></footer>
@@ -215,7 +215,7 @@
                         basket.push(bestellposition);
                         console.log(basket.length);
                         setJSONSessionItem('basket', basket);
-                        refreshPage();
+                        refreshPage(); // seite wird ohne URL-Paremeter neu geladen, es erfolgt kein Ajax-call es wird nur das neue SessionItem ausgelesen sprich der neue Basket
                     }
                 })
 
@@ -272,7 +272,11 @@
     </script>
 <script>
     $(document).ready(function() {
-        showBasket(); })
+        showBasket(); 
+        if (localStorage.getItem("basket") == null) {
+            $("BUTTON#WarenkorbzurKasse").attr("disabled", "disabled");
+        }
+        })
 </script>
 </body>
 </html>
