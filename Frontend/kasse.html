@@ -24,14 +24,14 @@
                     </div>
     <div class="right_side"> <br><br>
         
-        <br><br><b><p> 49,99€</p>
+        <!-- <br><br><b><p> 49,99€</p>
                 <p>9,49€</p> <br>
             <div class="summe">
-            <p>59,48€</p> </div></b> 
+            <p>59,48€</p> </div></b>  -->
     </div>  
      <div class="lala"><br> <br><br><br><br> <br><br>
         <br><br><br> <br><br> <br> <h3>Kontaktdaten</h3>
-         <p>Bitte geben Sie hier Ihre Zahlungsart und Kontaktdaten ein</p>
+         <p>Bitte geben Sie hier Ihre Zahlungsart und Kontaktdaten ein, bei Zahlung mit <strong>Paypal</strong> erhalten sie nach erfolgreicher Transaktion eine <strong>Bestätigungsemail</strong> von uns. Zeigen sie diese bitte bei der Abholung.</p>
     
     
     </div> 
@@ -73,6 +73,7 @@
 <script src="JQuery_JS/Sortierung.js"></script>
 <script src="JQuery_JS/Script.js"></script>
 <script src="JQuery_JS/urlParameter.js"></script>
+<script src="JQuery_JS/sessionHandling.js"></script>
 <script>
     //Erstellung Header
     createHeader();
@@ -80,6 +81,36 @@
     createNav();
     // Erstellung des Footers
     createFooter();
+
+    // Dynamisierung der Preise
+
+    $(document).ready(function() { 
+        var nettoSum = 0.0;
+        var b = JSON.parse(localStorage.getItem("basket"));
+        for (var i=0; i< b.length; i++) {
+            if (b[i].leihdauer === 0) {
+                nettoSum += b[i].kaufpreis;
+            }
+            else {
+                nettoSum += (b[i].leihpreis * b[i].leihdauer);
+                }
+        }
+
+        var bruttoSum = 0.0;
+            for (var i=0; i< b.length; i++) {
+                if (b[i].leihdauer === 0) {
+                    bruttoSum += b[i].bruttokaufpreis;
+                }
+                else {
+                    bruttoSum += (b[i].bruttoleihpreis * b[i].leihdauer);
+                }
+            }
+
+        $("DIV.right_side").append($("<br>")).append($("<br>")).append($("<b>").append($("<p>").text(toKomma((nettoSum).toFixed(2) + "€"))).append($("<p>").text(toKomma((bruttoSum - nettoSum).toFixed(2) + "€"))).append($("<br>")).append($("<div class='summe'>").append($("<p>").text(toKomma((bruttoSum).toFixed(2) + "€")))));
+
+
+
+    })
 
     // onclick="bestellErstellung()"
 
