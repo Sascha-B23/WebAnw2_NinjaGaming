@@ -46,7 +46,8 @@ function removeSessionItem(label) {
         $("DIV.gesamtpreis_warenkorb").remove();
         $("BUTTON.warenkorb_leeren").remove();
         $("BUTTON#WarenkorbzurKasse").attr("disabled", "disabled");
-        console.log(basket);
+        $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
+        console.log("Basket wurde gelöscht: Exists Session Item?=" + existsSessionItem(basket));
     }
 }
 
@@ -76,22 +77,27 @@ function isNullOrUndefined(val) {
     return val === null || val === undefined;
 }
 
+// refresh current page without any url-parameters
 function refreshPage() {
     window.location = window.location.href.split("?")[0];
+    console.log("Seite wurde neu ohne vorherige URL-Parameter geladen.")
 }
 
-function removeElement(pos) {
-    // Wenn letztes Element aus dem Warenkorb gelöscht wird, soll der komplette Basket verschwinden
+// remove an element from the basket-object in current session respectively localStorage
+function removeElementfromBasket(pos) {
+    // destroys the whole basket-object in the localStorage because it´s the last element in the basket
     if (basket.length === 1) {
         removeSessionItem('basket');
     }
-    // Sonst nimmt man den Basket, entfernt die jeweilige Position und fügt den neuen, gekürzten Basket
-    // der Session hinzu (neues SessionItem)
+    // otherwise take the basket-object, pop the given element and daklare the popped basket as new basket
     else {
         basket.splice(pos,1);
         setJSONSessionItem('basket', basket);
+
+        // grab the button which was pressed to delete the element and remove the container of the element (by getting the parentNodes of the button)
         var button = document.getElementById(pos);
         const container = button.parentNode.parentNode;
         container.remove();
+        console.log("Basket wurde um das gelöschte Spiel geschmälert, der Spielecontainer des Spiels wurde zertört: Basket=" + getSessionItem('basket'));
     }
 }
