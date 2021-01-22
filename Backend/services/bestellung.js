@@ -113,8 +113,14 @@ serviceRouter.post("/bestellung", function(request, response) {
             from: 'ninja.gamingshoprequest@gmail.com',
             to: request.body.email,
             subject: 'Ihre Bestellung vom ' + datum[0] + '" auf Ninja-Gaming zu ihrer Bestellnummer: 00000' + result.id,
-            html: "<h1 id='bestellbestätigung_h1'>Vielen Dank für ihre Bestellung!</h1>" + "<h2>Wenn Sie über PayPal bezahlen wollen, überweisen sie den Betrag bitte an folgende Adresse: </h2><br><br> <h1>'ninja.gamingshoprequest@gmail.com'</h1>" 
-                    + "<br><br><p>Sie haben folgende Spiele bestellt: " + spiele + "</p>" + "<br><br><p>Die Spiele sind in 5 Tagen" + "abholbereit!</p>"
+            html:   "<h1 id='bestellbestätigung_h1'>Vielen Dank für ihre Bestellung!</h1>" + 
+                    "<h3>Ihr Auftrag ist bei uns eingegangen und wird schnellstmöglich von unserem Team bearbeitet</h3>" +
+                    "<br><br><h3>!Achtung! Bei Zahlungsart 'PayPal' überweisen sie bitte den Rechnungsbetrag an ninjagaming.pay@gmail.com und geben sie die Bestellnummer: 00000" + result.id + " mit an.</h3>"+
+                    "<br><br><h4>Sie haben folgende Spiele bestellt: " + spiele + "</h4>" + 
+                    "<br><br><p>Die Spiele sind voraussichtlich nach 5 Werkagen bei uns im Shop abholbereit!</p>" + 
+                    "<a href='https://www.google.de/maps/place/Hochschule+Albstadt-Sigmaringen/@48.2103249,9.023931,15z/data=!4m5!3m4!1s0x479a1a9b989fc92d:0xc5484b887030f0ab!8m2!3d48.2103249!4d9.0326857'>Anfahrt Ninja-Gaming Shop</a>" +
+                    "<br><br><p>Aufgrund der aktuellen Lage bitten wir Sie bei der Abholung die aktuell geltenden Corona-Masßnahmen einzuhalten.<br>" + 
+                    "Falls Sie weitere Fragen haben kontaktieren Sie uns über unseren Support.<br><br>Vielen Dank, <br>Ihr Ninja-Gaming Team</p>"
           };
           
           transporter.sendMail(mailOptions, function(error, info){
