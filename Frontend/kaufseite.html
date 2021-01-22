@@ -70,7 +70,7 @@
                     $('DIV#Buttons').addClass("kaufen_button").append($("<a>").attr("href","warenkorb.html?addToBasket="+spiel.id).append($("<button>").addClass("button_innen").attr("disabled","disabled").text("Kaufen")));
                 }
                 $('DIV#Preisdaten').append($("<h3>").text(toKomma(spiel.bruttoleihpreis) + " €/Tag"));
-                $('DIV#Buttons').append($("<select id='Dropdown'>").addClass("dropdownKauf").attr('onchange','urlleihdauer()'));
+                $('DIV#Buttons').append($("<select id='Dropdown'>").addClass("dropdownKauf").attr('onchange','urlleihdauer()')); //Wichtig, URL Parameter muss sich ändern wenn Leihdauer sich ändert deswegen die Funtion urlleihdauer
                 $('SELECT#Dropdown').append($("<option>").text("Anzahl Tage auswählen").attr('disabled','disabled'));
                 if (spiel.leihdauer < 7){
                     for (var i=1; i < spiel.leihdauer ; i++) {
@@ -102,6 +102,7 @@
     })
 </script>
 <script>
+    // Verändert den URL-Parameter um die Leihdauer
     function urlleihdauer() {
         $("a#leihlink").attr("href", "warenkorb.html?addToBasket="+ getUrlParameterValue('spielId') + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text().split(" ")[0]);
     }
