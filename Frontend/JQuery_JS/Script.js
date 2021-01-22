@@ -185,3 +185,37 @@ function removeElementfromBasket(pos) {
 
   }
 }
+
+rightData = (vorname, nachname, mobilnummer, email, zahlungsart) => {
+    var errors = [];
+    const regex = /[0-9]/;
+    if (vorname.length > 20) {
+        errors.push("Vorname ist zu lang! ")
+    } else if (vorname.length < 1) {
+        errors.push("Vorname ist zu kurz! ")
+    } else if (vorname.match(regex) !== null) {
+        errors.push("Vorname enthält Zahlen! ")
+    }
+    if (nachname.length > 20) {
+        errors.push("Nachname ist zu lang! ")
+    } else if (nachname.length < 1) {
+        errors.push("Nachname ist zu kurz! ")
+    }else if (nachname.match(regex) !== null) {
+        errors.push("Nachname enthält Zahlen! ")
+    }
+
+    if (email === undefined) {
+        errors.push("Bitte Email eingeben! ")
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false) {
+        errors.push("Email hat falsches Format! ")
+    }
+    if (mobilnummer < 0) {
+        errors.push("Bitte richtige Mobilnummer angeben.")
+    }
+
+    if (zahlungsart == "Zahlungsart auswählen") {
+        errors.push("Bitte Zahlungsart auswählen! ")
+    }
+
+    return errors;
+}
