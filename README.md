@@ -4,7 +4,7 @@
 Um Server zu starten: im Terminal eingeben:npm install
 Dann im Terminal eingeben:node server.js
 
-HTML-Seiten sind im Ordner "public".
+HTML-Seiten sind im Ordner "Frontend".
 Alle Datenbanken und werte können mit Ajax erreicht werden. (Siehe Index.html und Spielauswahl.html).
 ## Vorgehensweise
 1) Git herunterladen: https://git-scm.com/download/win --> Git Bash aufrufen und folgende Befehle eingeben: $ git config --global user.name "DEIN USERNAME IN GITHUB"

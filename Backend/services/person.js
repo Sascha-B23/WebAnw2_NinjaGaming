@@ -79,13 +79,6 @@ serviceRouter.post("/person", function(request, response) {
         errorMsgs.push("email fehlt");
     if (!helper.isEmail(request.body.email)) 
         errorMsgs.push("email hat ein falsches Format");
-    // if (helper.isUndefined(request.body.geburtstag)) {
-    //     request.body.geburtstag = null;
-    // } else if (!helper.isGermanDateTimeFormat(request.body.geburtstag)) {
-    //     errorMsgs.push("geburtstag hat das falsche Format, erlaubt: dd.mm.jjjj");
-    // } else {
-    //     request.body.geburtstag = helper.parseDateTimeString(request.body.geburtstag);
-    // }
     
     if (errorMsgs.length > 0) {
         helper.log("Service Person: Creation not possible, data missing");
@@ -124,13 +117,6 @@ serviceRouter.put("/person", function(request, response) {
         errorMsgs.push("email fehlt");
     if (!helper.isEmail(request.body.email)) 
         errorMsgs.push("email hat ein falsches Format");
-    // if (helper.isUndefined(request.body.geburtstag)) {
-    //     request.body.geburtstag = null;
-    // } else if (!helper.isGermanDateTimeFormat(request.body.geburtstag)) {
-    //     errorMsgs.push("geburtstag hat das falsche Format, erlaubt: dd.mm.jjjj");
-    // } else {
-    //     request.body.geburtstag = helper.parseDateTimeString(request.body.geburtstag);
-    // }
 
     if (errorMsgs.length > 0) {
         helper.log("Service Person: Update not possible, data missing");
