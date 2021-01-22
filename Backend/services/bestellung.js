@@ -2,6 +2,7 @@ const helper = require("../helper.js");
 const BestellungDao = require("../dao/bestellungDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
+var nodemailer = require('nodemailer');
 
 serviceRouter.get("/bestellung/gib/:id", function(request, response) {
     helper.log("Service Bestellung: Client requested one record, id=" + request.params.id);
@@ -16,6 +17,7 @@ serviceRouter.get("/bestellung/gib/:id", function(request, response) {
         response.status(400).json(helper.jsonMsgError(ex.message));
     }
 });
+
 
 serviceRouter.get("/bestellung/alle/", function(request, response) {
     helper.log("Service Bestellung: Client requested all records");
@@ -76,7 +78,9 @@ serviceRouter.post("/bestellung", function(request, response) {
     } else if (request.body.bestellpositionen.length == 0) {
         errorMsgs.push("bestellpositionen is leer, nichts zu speichern");
     }
-    
+    if(helper.isUndefined(request.body.email)) {
+        errorMsgs.push("Email wurde nicht angegeben.");
+    }
     if (errorMsgs.length > 0) {
         helper.log("Service Bestellung: Creation not possible, data missing");
         response.status(400).json(helper.jsonMsgError("Hinzufügen nicht möglich. Fehlende Daten: " + helper.concatArray(errorMsgs)));
@@ -88,6 +92,29 @@ serviceRouter.post("/bestellung", function(request, response) {
         var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.bestellerid, request.body.zahlungsartid, request.body.bestellpositionen);
         helper.log("Service Bestellung: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
+        var datum = JSON.stringify(request.body.bestellzeitpunkt).split("T");
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'ninja.gamingshoprequest@gmail.com',
+              pass: 'ninjagaming123'
+            }
+          });
+          
+          var mailOptions = {
+            from: 'ninja.gamingshoprequest@gmail.com',
+            to: request.body.email,
+            subject: 'Ihre Bestellung vom ' + datum[0] + '" auf Ninja-Gaming zu ihrer Bestellnummer: 00000' + result.id,
+            html: "<h1 id='bestellbestätigung_h1'>Vielen Dank für ihre Bestellung!</h1>" + "<h2> </h2>" 
+          };
+          
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              helper.log(error);
+            } else {
+              helper.log('Email sent: ' + info.response);
+            }
+          });
         return result.id;
     } catch (ex) {
         helper.logError("Service Bestellung: Error creating new record. Exception occured: " + ex.message);

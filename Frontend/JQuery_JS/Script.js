@@ -24,6 +24,92 @@ function createFooter() {
 
 }
 
+function search(val) {
+  $.ajax({
+      url: "http://localhost:8000/api/spiel/alle",
+      method: "GET",
+      dataType: "json"
+  })
+  .done(function(httpResponse) {
+      var list = httpResponse.daten
+      var resultlist = [];
+      for (var i=0; i< list.length; i++) {
+          //Makes exact Searchinput like "Cyberpunk 2077 (Day-One-Edition)" possible
+          if (list[i].spielname.toLowerCase() === val.toLowerCase()) {
+              resultlist.push(list[i]);
+          }
+          else if (list[i].spielname.toLowerCase().includes(val.toLowerCase())) {
+              resultlist.push(list[i]);
+          }
+      }
+      // //Makes "one word" - Searchinput like "Cyberpunk" or "Borderlands" possible
+      // else if (list[i].spielname.split(' ')[0].toLowerCase() == val.toLowerCase()) {
+      //         resultlist.push(list[i]);
+      //     }
+      
+      if (resultlist.length == 0) {
+          alert("Keine Spiel zur Suchanfrage gefunden! Bitte erneut versuchen!");
+      }
+      else if (resultlist.length == 1) {
+          window.location.replace("kaufseite.html?spielId=" + resultlist[0].id);
+      }
+      else {
+          var ids = "";
+          for (var x=0; x < resultlist.length;x++){
+              ids += resultlist[x].id  + " ";
+          }
+          window.location.replace("spielauswahl.html?ids=" + ids);
+      }
+
+  })
+  .fail(function(jqXHR, statusText, error) {
+      console.log(statusText);
+      alert("Es ist ein Fehler aufgetreten");
+  })
+}
+
+function createTopGames() {
+    $.ajax({
+            url: "http://localhost:8000/api/spiel/alle/erscheinungsdatum",
+            method: "GET",
+            dataType: "json"
+        })
+        .done(function(httpResponse) {
+            var list = httpResponse.daten
+            console.log(list.length);
+            // Sorting list, latest games first in list
+            // for (var i=0; i < list.length; i++) {
+            //     for (var j=i+1; j < list.length; j++) {
+            //         if (list[i].erscheinungsjahr < list[j].erscheinungsjahr) {
+            //             var old = list[i];
+            //             list[i] = list[j];
+            //             list[j] = old;
+            //         }
+            //     }
+            // }
+            var anzahl;
+            if (list.length > 5) {
+                anzahl = 5
+            }
+            else {
+                anzahl = list.length;
+            }
+            for (var i=0; i < anzahl; i++) {
+                $("DIV#dyntarget").append(
+                    $("<div>")
+                        .addClass("elementmittig")
+                        .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
+                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(toKomma(list[i].bruttokaufpreis) + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
+                        .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
+            }
+        })
+        .fail(function(jqXHR, statusText, error) {
+            console.log(statusText);
+            alert("Es ist ein Fehler aufgetreten");
+        })
+  
+}
+
 function createPerson(obj) {
   $.ajax({
     url: "http://localhost:8000/api/person",
@@ -98,4 +184,38 @@ function removeElementfromBasket(pos) {
       console.log("Basket wurde um das gelöschte Spiel geschmälert, der Spielecontainer des Spiels wurde zertört: Basket=" + getSessionItem('basket'));
 
   }
+}
+
+rightData = (vorname, nachname, mobilnummer, email, zahlungsart) => {
+    var errors = [];
+    const regex = /[0-9]/;
+    if (vorname.length > 20) {
+        errors.push("Vorname ist zu lang! ")
+    } else if (vorname.length < 1) {
+        errors.push("Vorname ist zu kurz! ")
+    } else if (vorname.match(regex) !== null) {
+        errors.push("Vorname enthält Zahlen! ")
+    }
+    if (nachname.length > 20) {
+        errors.push("Nachname ist zu lang! ")
+    } else if (nachname.length < 1) {
+        errors.push("Nachname ist zu kurz! ")
+    }else if (nachname.match(regex) !== null) {
+        errors.push("Nachname enthält Zahlen! ")
+    }
+
+    if (email === undefined) {
+        errors.push("Bitte Email eingeben! ")
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false) {
+        errors.push("Email hat falsches Format! ")
+    }
+    if (mobilnummer < 0) {
+        errors.push("Bitte richtige Mobilnummer angeben.")
+    }
+
+    if (zahlungsart == "Zahlungsart auswählen") {
+        errors.push("Bitte Zahlungsart auswählen! ")
+    }
+
+    return errors;
 }

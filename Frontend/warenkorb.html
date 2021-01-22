@@ -93,69 +93,70 @@
     <footer></footer>
 
 
-    <script>
-        //Erstellung Header
-        createHeader();
-        // Erstellung des Navs
-        createNav();
-        // Erstellung des Footers
-        createFooter();
-
-        function showBasket() {
-              // aktuelle warenkorbdaten in konsole anzeigen lassen
-              console.log(basket);
-              if (basket.length == 0) {
-              // warenkorb_leer noch in css anlegen
-                    $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
-              }
-              else {
-                  //hier dynamischen Code eintragen 
-                  //angezeigt werden muss: Spielbild, Spielname, Plattform, Erscheinungsjahr, Gekauft/Leihdauer,
-                  // Preis und entfernen Button
-                  //ganz unten noch enth. MwSt. und Gesamtsumme
-                    var gesamtnetto = 0.0;
-                    var gesamtbrutto = 0.0;  
-                    for (var i=0; i < basket.length; i++) {
-                        if (basket[i].leihdauer == 0) {
-                            $('DIV.warenkorb_main').append(
-                            $('<div>')
-                                .addClass('warenkorb_spiel')
-                                .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
-                                .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
-                                .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP')))
-                                .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(basket[i].bruttokaufpreis) + '€')))
-                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))))
-                            gesamtbrutto += basket[i].bruttokaufpreis;
-                            gesamtnetto += basket[i].kaufpreis;
-                        }
-                        else if (basket[i].leihdauer > 0) {
-                            $('DIV.warenkorb_main').append(
-                            $('<div>')
-                                .addClass('warenkorb_spiel')
-                                .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
-                                .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
-                                .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + basket[i].leihdauer + ' Tage')))
-                                .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma((basket[i].bruttoleihpreis * basket[i].leihdauer).toFixed(2)) + '€')))
-                                .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))));
-                            gesamtbrutto += (basket[i].bruttoleihpreis * basket[i].leihdauer);
-                            gesamtnetto += (basket[i].leihpreis * basket[i].leihdauer);
-                        }
-                        
-                    }
-                    //Gesamtsumme:
+<script>
+    //Erstellung Header
+    createHeader();
+    // Erstellung des Navs
+    createNav();
+    // Erstellung des Footers
+    createFooter();
+    // Warenkorbinhalt anzeigen
+    function showBasket() {
+    // aktuelle warenkorbdaten in konsole anzeigen lassen
+    console.log(basket);
+    if (basket.length == 0) {
+    // warenkorb_leer noch in css anlegen
+            $('DIV#test').append($('<h2>').addClass('warenkorb_leer').text('Der Warenkorb ist leer'));
+    }
+    else {
+        //hier dynamischen Code eintragen 
+        //angezeigt werden muss: Spielbild, Spielname, Plattform, Erscheinungsjahr, Gekauft/Leihdauer,
+        // Preis und entfernen Button
+        //ganz unten noch enth. MwSt. und Gesamtsumme
+            var gesamtnetto = 0.0;
+            var gesamtbrutto = 0.0;  
+            for (var i=0; i < basket.length; i++) {
+                if (basket[i].leihdauer == 0) {
                     $('DIV.warenkorb_main').append(
-                        $('<div>')
-                            .addClass('gesamtpreis_warenkorb')
-                            .append($('<hr>'))
-                            .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
-                            .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4 id="nettopreis">').text(toKomma((gesamtbrutto - gesamtnetto).toFixed(2)) + '€').append($('<h3 id="bruttopreis">').text(toKomma(gesamtbrutto.toFixed(2)) + '€'))))
-                    );
-                    //Button für gesamten Warenkorb leeren
-                    $('DIV.warenkorb_main').append($('<button>').addClass('warenkorb_leeren').attr("onclick", "removeSessionItem('basket')").text("Kompletten Warenkorb leeren"));
-              }
+                    $('<div>')
+                        .addClass('warenkorb_spiel')
+                        .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
+                        .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
+                        .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Kaufpreis UVP')))
+                        .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma(basket[i].bruttokaufpreis) + '€')))
+                        .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))))
+                    gesamtbrutto += basket[i].bruttokaufpreis;
+                    gesamtnetto += basket[i].kaufpreis;
+                }
+                else if (basket[i].leihdauer > 0) {
+                    $('DIV.warenkorb_main').append(
+                    $('<div>')
+                        .addClass('warenkorb_spiel')
+                        .append($('<a>').attr('href','kaufseite.html?spielId='+basket[i].spielId).append($('<img>').addClass('warenkorb_spielanzeige').attr('src', basket[i].spielbild)))
+                        .append($('<div>').addClass('warenkorb_spielbeschreibung').append($('<h4>').text(basket[i].spielname)).append($('<h5>').text('Plattform: ' + basket[i].plattform)).append($('<h5>').text('Erscheinungsjahr: ' + basket[i].erscheinungsjahr)))
+                        .append($('<div>').addClass('warenkorb_kaufart').append($('<h4>').text('Geliehen für: ' + basket[i].leihdauer + ' Tage')))
+                        .append($('<div>').addClass('warenkorb_preis').append($('<h4>').text(toKomma((basket[i].bruttoleihpreis * basket[i].leihdauer).toFixed(2)) + '€')))
+                        .append($('<div>').addClass('warenkorb_rechterContainer').append($('<button id="'+ i + '">').addClass('warenkorb_entfernen').attr("onclick","removeElementfromBasket('" + i + "')").text('entfernen'))));
+                    gesamtbrutto += (basket[i].bruttoleihpreis * basket[i].leihdauer);
+                    gesamtnetto += (basket[i].leihpreis * basket[i].leihdauer);
+                }
+                
+            }
+            //Gesamtsumme:
+            $('DIV.warenkorb_main').append(
+                $('<div>')
+                    .addClass('gesamtpreis_warenkorb')
+                    .append($('<hr>'))
+                    .append($('<div>').addClass('gesamtpreis_warenkorb_links').append($('<h4>').text('Enth. MwSt.')).append($('<h3>').text('Gesamtsumme')))
+                    .append($('<div>').addClass('gesamtpreis_warenkorb_rechts').append($('<h4 id="nettopreis">').text(toKomma((gesamtbrutto - gesamtnetto).toFixed(2)) + '€').append($('<h3 id="bruttopreis">').text(toKomma(gesamtbrutto.toFixed(2)) + '€'))))
+            );
+            //Button für gesamten Warenkorb leeren
+            $('DIV.warenkorb_main').append($('<button>').addClass('warenkorb_leeren').attr("onclick", "removeSessionItem('basket')").text("Kompletten Warenkorb leeren"));
+    }
 
-          }
-  </script>
+    }
+
+</script>
 <script>
 
     // initialisierung (globale variable)

@@ -29,7 +29,7 @@ class BestellpositionDao {
         result.spiel = spielDao.loadById(result.spielid);
         delete result.spielid;
 
-        if(result[i].gekauft == 1) {
+        if(result.gekauft == 1) {
             result.nettopreis = result.spiel.nettokaufpreis;
             result.bruttopreis = result.spiel.bruttokaufpreis;
             result.mehrwertsteuer = result.spiel.kaufmehrwertsteueranteil;

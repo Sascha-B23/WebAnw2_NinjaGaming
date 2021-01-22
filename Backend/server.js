@@ -56,6 +56,9 @@ try {
 
     // bind services endpoints
     const TOPLEVELPATH = "/api";
+
+    serviceRouter = require("./services/bestellposition.js");
+    app.use(TOPLEVELPATH, serviceRouter);
  
     serviceRouter = require("./services/spielplattform.js");
     app.use(TOPLEVELPATH, serviceRouter);

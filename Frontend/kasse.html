@@ -120,6 +120,14 @@
         const nachname = document.getElementById("nname").value;
         const mobilnummer = document.getElementById("mobilnummer").value;
         const email = document.getElementById("email").value;
+        const zahlungsart = $("SELECT#zahlart").find(":selected").text();
+
+        var errors = rightData(vorname, nachname, mobilnummer, email, zahlungsart);
+        
+        if(errors.length != 0) {
+            alert(errors);
+            return;
+        }
 
         var obj = { "vorname": vorname, "nachname": nachname, "mobilnummer" : mobilnummer, "email" : email };
 
@@ -164,7 +172,7 @@
                             }
 
                             date = new Date(Date.now()).toLocaleString();
-                            var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
+                            var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen, "email" : email};
                             console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
                                 $.ajax({
                                     url: "http://localhost:8000/api/bestellung",

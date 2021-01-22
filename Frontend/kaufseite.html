@@ -39,6 +39,8 @@
     createNav();
     // Erstellung des Footers
     createFooter();
+    // Top Games Ansicht erstellen
+    createTopGames();
     // Funktion bei der Suchleiste
     $(document).ready(function() {
         if(!hasUrlParameters()){
@@ -103,47 +105,5 @@
     function urlleihdauer() {
         $("a#leihlink").attr("href", "warenkorb.html?addToBasket="+ getUrlParameterValue('spielId') + "&leihdauer=" + $("SELECT#Dropdown").find(":selected").text().split(" ")[0]);
     }
-</script>
-<script>
-    $(document).ready(function() {
-        $.ajax({
-            url: "http://localhost:8000/api/spiel/alle/erscheinungsdatum",
-            method: "GET",
-            dataType: "json"
-        })
-        .done(function(httpResponse) {
-            var list = httpResponse.daten
-            console.log(list.length);
-            // Sorting list, latest games first in list
-            // for (var i=0; i < list.length; i++) {
-            //     for (var j=i+1; j < list.length; j++) {
-            //         if (list[i].erscheinungsjahr < list[j].erscheinungsjahr) {
-            //             var old = list[i];
-            //             list[i] = list[j];
-            //             list[j] = old;
-            //         }
-            //     }
-            // }
-            var anzahl;
-            if (list.length > 5) {
-                anzahl = 5
-            }
-            else {
-                anzahl = list.length;
-            }
-            for (var i=0; i < anzahl; i++) {
-                $("DIV#dyntarget").append(
-                    $("<div>")
-                        .addClass("elementmittig")
-                        .append($("<a>").attr("href","kaufseite.html?spielId=" + list[i].id).append($("<img>").attr("src",list[i].bilder[0].bildpfad)))
-                        .append($("<div>").addClass("PreisBeschreibungContainer").append($("<p>").addClass("Plattform").text("Plattform: ").append($("<strong>").text(list[i].spielplattform.name))).append($("<p>").addClass("Preis").text(toKomma(list[i].bruttokaufpreis) + "€" )).append($("<p>").addClass("Spielname").text(list[i].spielname)))
-                        .append($("<div>").addClass("AnsehenContainer").append($("<a>").attr("href","kaufseite.html?spielId="+list[i].id).append($("<button>").addClass("ZumSpiel").text("Spiel ansehen")))));
-            }
-        })
-        .fail(function(jqXHR, statusText, error) {
-            console.log(statusText);
-            alert("Es ist ein Fehler aufgetreten");
-        })
-});
 </script>
 </html>
