@@ -3,6 +3,7 @@ const BestellungDao = require("../dao/bestellungDao.js");
 const express = require("express");
 var serviceRouter = express.Router();
 var nodemailer = require('nodemailer');
+const SpielDao = require("../dao/spielDao");
 
 serviceRouter.get("/bestellung/gib/:id", function(request, response) {
     helper.log("Service Bestellung: Client requested one record, id=" + request.params.id);
@@ -88,10 +89,17 @@ serviceRouter.post("/bestellung", function(request, response) {
     }
 
     const bestellungDao = new BestellungDao(request.app.locals.dbConnection);
+    const spielDao = new SpielDao(request.app.locals.dbConnection);
     try {
         var result = bestellungDao.create(request.body.bestellzeitpunkt, request.body.bestellerid, request.body.zahlungsartid, request.body.bestellpositionen);
         helper.log("Service Bestellung: Record inserted");
         response.status(200).json(helper.jsonMsgOK(result));
+        var spiele = [];
+        for (var i=0; i < request.body.bestellpositionen.length; i++) {
+            helper.log(request.body.bestellpositionen[i]);
+            var spiel = spielDao.loadById(request.body.bestellpositionen[i].spielid);
+            spiele.push(spiel.spielname);
+        }
         var datum = JSON.stringify(request.body.bestellzeitpunkt).split("T");
         var transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -105,7 +113,8 @@ serviceRouter.post("/bestellung", function(request, response) {
             from: 'ninja.gamingshoprequest@gmail.com',
             to: request.body.email,
             subject: 'Ihre Bestellung vom ' + datum[0] + '" auf Ninja-Gaming zu ihrer Bestellnummer: 00000' + result.id,
-            html: "<h1 id='bestellbestätigung_h1'>Vielen Dank für ihre Bestellung!</h1>" + "<h2> </h2>" 
+            html: "<h1 id='bestellbestätigung_h1'>Vielen Dank für ihre Bestellung!</h1>" + "<h2>Wenn Sie über PayPal bezahlen wollen, überweisen sie den Betrag bitte an folgende Adresse: </h2><br><br> <h1>'ninja.gamingshoprequest@gmail.com'</h1>" 
+                    + "<br><br><p>Sie haben folgende Spiele bestellt: " + spiele + "</p>" + "<br><br><p>Die Spiele sind in 5 Tagen" + "abholbereit!</p>"
           };
           
           transporter.sendMail(mailOptions, function(error, info){
