@@ -4,9 +4,8 @@
   "description": "Backend for WebAnwendungen2 WS1920",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-
   "author": "Robert Kuti",
   "license": "ISC",
   "dependencies": {
@@ -20,6 +19,6 @@
     "swagger-ui-dist": "^3.24.0"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "nodemailer": "^6.4.17"
   }
 }
