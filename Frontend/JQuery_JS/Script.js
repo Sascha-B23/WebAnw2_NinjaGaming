@@ -43,9 +43,6 @@ function search(val) {
           }
       }
       // //Makes "one word" - Searchinput like "Cyberpunk" or "Borderlands" possible
-      // else if (list[i].spielname.split(' ')[0].toLowerCase() == val.toLowerCase()) {
-      //         resultlist.push(list[i]);
-      //     }
       
       if (resultlist.length == 0) {
           alert("Keine Spiel zur Suchanfrage gefunden! Bitte erneut versuchen!");
@@ -77,16 +74,6 @@ function createTopGames() {
         .done(function(httpResponse) {
             var list = httpResponse.daten
             console.log(list.length);
-            // Sorting list, latest games first in list
-            // for (var i=0; i < list.length; i++) {
-            //     for (var j=i+1; j < list.length; j++) {
-            //         if (list[i].erscheinungsjahr < list[j].erscheinungsjahr) {
-            //             var old = list[i];
-            //             list[i] = list[j];
-            //             list[j] = old;
-            //         }
-            //     }
-            // }
             var anzahl;
             if (list.length > 5) {
                 anzahl = 5
@@ -184,4 +171,68 @@ function removeElementfromBasket(pos) {
       console.log("Basket wurde um das gelöschte Spiel geschmälert, der Spielecontainer des Spiels wurde zertört: Basket=" + getSessionItem('basket'));
 
   }
+}
+
+rightData = (vorname, nachname, mobilnummer, email, zahlungsart) => {
+    var errors = [];
+    const regex = /[0-9]/;
+    if (vorname.length > 20) {
+        errors.push("Vorname ist zu lang! ")
+    } else if (vorname.length < 1) {
+        errors.push("Vorname ist zu kurz oder nicht eingegeben worden! ")
+    } else if (vorname.match(regex) !== null) {
+        errors.push("Vorname enthält Zahlen! ")
+    }
+    if (nachname.length > 20) {
+        errors.push("Nachname ist zu lang! ")
+    } else if (nachname.length < 1) {
+        errors.push("Nachname ist zu kurz oder nicht eingegeben worden! ")
+    }else if (nachname.match(regex) !== null) {
+        errors.push("Nachname enthält Zahlen! ")
+    }
+
+    if (email === undefined) {
+        errors.push("Bitte Email eingeben! ")
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) === false) {
+        errors.push("Email hat falsches Format! ")
+    }
+    if (mobilnummer < 0) {
+        errors.push("Bitte richtige Mobilnummer angeben.")
+    }
+    else if (mobilnummer.match(/[a-z]/)) {
+        errors.push("Mobilfunktnummer darf keine Buchstaben enthalten!")
+    }
+
+    if (zahlungsart == "Zahlungsart auswählen") {
+        errors.push("Bitte Zahlungsart auswählen! ")
+    }
+
+    return errors;
+}
+
+getNettoSumfrom = (obj) => {
+    var nettoSum = 0.0;
+    for (var i=0; i<obj.length;i++) {
+        if (obj[i].leihdauer === 0) {
+            nettoSum += obj[i].kaufpreis;
+            console.log(obj[i].leihdauer);
+        }
+        else {
+            nettoSum += (obj[i].leihpreis * obj[i].leihdauer);
+        }
+    }
+    return nettoSum;
+}
+
+getBruttoSumfrom = (obj) => {
+    var bruttoSum = 0.0;
+    for (var i=0; i< obj.length; i++) {
+        if (obj[i].leihdauer === 0) {
+            bruttoSum += obj[i].bruttokaufpreis;
+        }
+        else {
+            bruttoSum += (obj[i].bruttoleihpreis * obj[i].leihdauer);
+        }
+    }
+    return bruttoSum;
 }

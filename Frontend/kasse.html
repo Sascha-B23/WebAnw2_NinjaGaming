@@ -10,7 +10,7 @@
     <header></header>
 
     <div id="nav"></div>
-    <!--dynamisierung Mert?..-->
+    <!--dynamisierung Mert?????????????????????..-->
     <a href="warenkorb.html"><img id="Warenkorb" src="Bilder/Warenkorb.png" alt="Warenkorb"/></a>
     <div class="kasse">
     <br><br><h2>Kasse</h2><br><br>
@@ -23,11 +23,6 @@
                 <p>  = Gesamtsumme</p> </b>
                     </div>
     <div class="right_side"> <br><br>
-        
-        <!-- <br><br><b><p> 49,99€</p>
-                <p>9,49€</p> <br>
-            <div class="summe">
-            <p>59,48€</p> </div></b>  -->
     </div>  
      <div class="lala"><br> <br><br><br><br> <br><br>
         <br><br><br> <br><br> <br> <h3>Kontaktdaten</h3>
@@ -83,46 +78,43 @@
     createFooter();
 
     // Dynamisierung der Preise
-
     $(document).ready(function() { 
-        var nettoSum = 0.0;
         var b = JSON.parse(localStorage.getItem("basket"));
-        for (var i=0; i< b.length; i++) {
-            if (b[i].leihdauer === 0) {
-                nettoSum += b[i].kaufpreis;
-            }
-            else {
-                nettoSum += (b[i].leihpreis * b[i].leihdauer);
-                }
-        }
-
-        var bruttoSum = 0.0;
-            for (var i=0; i< b.length; i++) {
-                if (b[i].leihdauer === 0) {
-                    bruttoSum += b[i].bruttokaufpreis;
-                }
-                else {
-                    bruttoSum += (b[i].bruttoleihpreis * b[i].leihdauer);
-                }
-            }
-
+        // getItem von localStorage liefert den Basket als String zurück, demnach in ein JSON umparsen, damit die beieden Funktionen durch das JSON-Objekt iterieren können
+        var nettoSum = getNettoSumfrom(b);
+        var bruttoSum = getBruttoSumfrom(b);
+        console.log("Bruttosumme berechnet= " +  bruttoSum);
+        console.log("Nettosumme berechnet= " + nettoSum);
+        // Erzeugung des Gesamtpreises
         $("DIV.right_side").append($("<br>")).append($("<br>")).append($("<b>").append($("<p>").text(toKomma((nettoSum).toFixed(2) + "€"))).append($("<p>").text(toKomma((bruttoSum - nettoSum).toFixed(2) + "€"))).append($("<br>")).append($("<div class='summe'>").append($("<p>").text(toKomma((bruttoSum).toFixed(2) + "€")))));
-
-
-
     })
 
-    // onclick="bestellErstellung()"
 
+    // Drücken des Buttons "Jetzt Kaufen"
     $("#zumSpiel").click(function() { 
         console.log("button zumSpiel clicked");
+
+        // Abrufen der Input-Felder und der Zahlungsart
         const vorname = document.getElementById("fname").value;
         const nachname = document.getElementById("nname").value;
         const mobilnummer = document.getElementById("mobilnummer").value;
         const email = document.getElementById("email").value;
+        const zahlungsart = $("SELECT#zahlart").find(":selected").text();
 
+        // Überprüfung, ob die richtigen Inputs eingetragen wurden oder ob zum Beispiel vergessen wurde die Zahlungsart auszuwählen. etc... Funktion ist in Scripts.js
+
+        var errors = rightData(vorname, nachname, mobilnummer, email, zahlungsart);
+        
+        // Liefert Array zurück, welches die verschiedenen Fehler ausgibt, falls Liste nicht leer,heißt es, dass mehr als ein Fehler passiert ist und der Vorgang wird abgebrochen
+        if(errors.length != 0) {
+            alert(errors);
+            return;
+        }
+
+        // Erzeugen eines JSON-Objektes, dass die Daten aus der Input-Abfrage speichert
         var obj = { "vorname": vorname, "nachname": nachname, "mobilnummer" : mobilnummer, "email" : email };
 
+        // Ajax-Aufruf, um zu ermitteln, ob diese Person mit genau diesen Attributen schon in der Datenbank existiert
         $.ajax({
             url: "http://localhost:8000/api/person/existiert/" + vorname + "/" + nachname + "/" + mobilnummer + "/" + email,
             method: "get",
@@ -130,7 +122,9 @@
             })
             .done(function(httpResponse) {
                 var erg = httpResponse.daten;
+                // Falls die Person noch nicht existiert, ist die Rückgabe -1 !
                 if (erg.existiert === -1) {
+                    // Weiterer Ajax-Call, um die Person zu erstellen, also ein POST-Request, das JSON Object muss in einen String umgewandelt werden!
                     $.ajax({
                         url: "http://localhost:8000/api/person",
                         method: "post",
@@ -138,8 +132,10 @@
                         data: JSON.stringify(obj)
                         })
                         .done(function (response) {
+                            // Wenn das Einfügen der neuen Person erfolgreich war, wird auch diese neue Person gleich zurückgeliert, hier hole ich mir die Id der erstellten Person!
                             var PersonId = response.daten.id;
                             console.log("Person-ID:" + response.daten.id);
+                            // Ermitteln, wie die Person die Bestellung bezahlen wollte/was die Person ausgewählt hat
                             var zahlId;
                             if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
                                 zahlId =2;
@@ -150,6 +146,8 @@
                             else {
                                 alert("Zahlart auswählen!");
                             }
+
+                            // Basket holen und die einzelnen spiele bzw Bestellpositionen auslesen und in den Array "Bestellpositionen" pushen
                             var basket = JSON.parse(localStorage.getItem("basket"));
                             var bestellpositionen = [];
                             for (var i=0; i < basket.length; i++) {
@@ -163,16 +161,18 @@
                                 bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
                             }
 
-                            date = new Date(Date.now()).toLocaleString();
-                            var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
+                            // JSON-Object für die Anlage der Bestellung erzeugen und die benötigten Daten hinzufügen
+                            var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen, "email" : email};
                             console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
+                                // Finaler Ajax-Call, um die Bestellung zu erzeugen, via POST-Request, JSON-Objekt muss wieder in String umgewandelt werden!
                                 $.ajax({
                                     url: "http://localhost:8000/api/bestellung",
                                     method: "post",
                                     contentType: "application/json",
                                     data: JSON.stringify(daten)
                                     })
-                                    .done(function (response) { 
+                                    .done(function (response) {
+                                        // Wenn die Bestellung erfolgreich Bestellt wurde wird die Bestellbestätigungseite aufgerufen, Basket wird geleert
                                         console.log("Bestellung erstellt mit der Nummer:  " + response.daten.id);
                                         window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
                                         localStorage.removeItem("basket");
@@ -188,50 +188,57 @@
 
                 }
                 else {
+                    // ELSE-FALL: Person existiert schon! Rückgabewert des Responses entspricht der Id der schon existenten Person
                     var PersonId = erg.existiert;
                     console.log("Person existiert: id:" + PersonId)
-                    var zahlId;
-                        if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
-                            zahlId =2;
-                        }
-                        else if ($("SELECT#zahlart").find(":selected").text() === "PayPal") {
-                            zahlId =1;
-                        }
-                        else {
-                            alert("Zahlart auswählen!");
-                        }
-                        console.log("ZahlID: " + zahlId);
-                        var basket = JSON.parse(localStorage.getItem("basket"));
-                        var bestellpositionen = [];
-                        for (var i=0; i < basket.length; i++) {
-                            var spielid = basket[i].spielId;
-                            var leihdauer = basket[i].leihdauer;
-                            var gekauft = 0;
-                            if (leihdauer === 0) {
-                                gekauft = 1;
-                            }
 
-                            bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
+                    // Wieder die Zahlart herausfinden
+                    var zahlId;
+                    if ($("SELECT#zahlart").find(":selected").text() === "Barzahlung") {
+                        zahlId =2;
+                    }
+                    else if ($("SELECT#zahlart").find(":selected").text() === "PayPal") {
+                        zahlId =1;
+                    }
+                    else {
+                        alert("Zahlart auswählen!");
+                    }
+                    console.log("ZahlID: " + zahlId);
+
+                    // Basket holen und die einzelnen spiele bzw Bestellpositionen auslesen und in den Array "Bestellpositionen" pushen
+                    var basket = JSON.parse(localStorage.getItem("basket"));
+                    var bestellpositionen = [];
+                    for (var i=0; i < basket.length; i++) {
+                        var spielid = basket[i].spielId;
+                        var leihdauer = basket[i].leihdauer;
+                        var gekauft = 0;
+                        if (leihdauer === 0) {
+                            gekauft = 1;
                         }
-                        date = new Date(Date.now()).toLocaleString();
-            
-                        var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen };
-                        console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
-                            $.ajax({
-                                url: "http://localhost:8000/api/bestellung",
-                                method: "post",
-                                contentType: "application/json",
-                                data: JSON.stringify(daten)
-                                })
-                                .done(function (response) { 
-                                    console.log("Bestellung erstellt mit der Nummer:  " + response.daten.id);
-                                    window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
-                                    localStorage.removeItem("basket");
-                                })
-                                .fail(function (jqXHR, statusText, error) {
-                                    console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
-                                });
-                        }
+
+                        bestellpositionen.push({"spielid" : spielid, "gekauft" : gekauft , "leihzeit" : leihdauer});
+                    }
+
+                    // JSON-Object für die Anlage der Bestellung erzeugen und die benötigten Daten hinzufügen
+                    var daten = { "bestellzeitpunkt": undefined, "bestellerid": PersonId, "zahlungsartid" : zahlId, "bestellpositionen" : bestellpositionen, "email" : email};
+                    console.log("Daten, die an api/bestellung geschickt werden: " + JSON.stringify(daten));
+                        // Finaler Ajax-Call, um die Bestellung zu erzeugen, via POST-Request, JSON-Objekt muss wieder in String umgewandelt werden!
+                        $.ajax({
+                            url: "http://localhost:8000/api/bestellung",
+                            method: "post",
+                            contentType: "application/json",
+                            data: JSON.stringify(daten)
+                            })
+                            .done(function (response) { 
+                                // Wenn die Bestellung erfolgreich Bestellt wurde wird die Bestellbestätigungseite aufgerufen, Basket wird geleert
+                                console.log("Bestellung erstellt mit der Nummer:  " + response.daten.id);
+                                window.location.replace("bestellbestätigung.html?bestellId=" + response.daten.id);
+                                localStorage.removeItem("basket");
+                            })
+                            .fail(function (jqXHR, statusText, error) {
+                                console.log("Response Code: " + jqXHR.status + " - Fehlermeldung: " + jqXHR.responseText);
+                        });
+                    }
             })
             .fail(function(jqXHR, statusText, error) {
             console.log(statusText);

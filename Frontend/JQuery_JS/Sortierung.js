@@ -59,7 +59,7 @@ function sortGames() {
     switch(x) {
         case "PreisAuf":
             $.ajax({
-                // Ajax-Call, getting current list of games from database. (Important in case of deletet DOM-Elemets after "NurKaufen"/"NurLeihen").
+                // Ajax-Call, getting current list of games from database. (Important in case of deleted DOM-Elemets after "NurKaufen"/"NurLeihen").
                 url: "http://localhost:8000/api/spiel/plattform/" + id,
                 method: "GET",
                 dataType: "json"
